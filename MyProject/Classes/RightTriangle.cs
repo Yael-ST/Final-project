@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MyProject
+namespace MyProject.Classes
 {
-    internal class RightTriangle :Triangle
+    internal class RightTriangle : Triangle
     {
-        public RightTriangle(string nameTringle, Side[] sides, Angle[] angles, List<Line> moreLines, List<Angle> moreAngles):base( nameTringle,sides, angles, moreLines, moreAngles)
+        public RightTriangle(string nameTringle, Side[] sides, Angle[] angles, List<Line> moreLines, List<Angle> moreAngles) : base(nameTringle, sides, angles, moreLines, moreAngles)
         {
 
         }

@@ -8,7 +8,7 @@ namespace MyProject.Classes
 {
     internal enum DescriptionSide
     {
-        sample,
+        simple,
         yeter,
         nichav
     }
