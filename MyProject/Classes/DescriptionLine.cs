@@ -6,11 +6,12 @@ using System.Threading.Tasks;
 
 namespace MyProject.Classes
 {
+    [Flags]
     internal enum DescriptionLine
     {
-        simple,
-        middle,
-        crossAngle,
-        plumb
+        simple =2,
+        middle=4,
+        bisectsAngle=8,
+        plumb=16
     }
 }

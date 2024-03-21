@@ -9,16 +9,13 @@ namespace MyProject.Classes
     internal class LineInTriangle : Line
     {
         private DescriptionLine descriptionLine;
-        private Side sideDest;
+        private Rib ribDest;
         private Angle angleSource;
         private char cutPoint;
 
-        internal Side SideDest { get => sideDest; set => sideDest = value; }
+        internal Rib RibDest { get => ribDest; set => ribDest = value; }
         internal Angle AngleSource { get => angleSource; set => angleSource = value; }
         internal DescriptionLine DescriptionLine { get => descriptionLine; set => descriptionLine = value; }
         public char CutPoint { get => cutPoint; set => cutPoint = value; }
-
-
-
     }
 }

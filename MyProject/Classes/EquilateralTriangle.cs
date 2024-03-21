@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MyProject.Classes
 {
-    internal class EquilateralTriangle
+    internal class EquilateralTriangle :Triangle
     {
     }
 }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MyProject.Classes
 {
-    internal enum DescriptionSide
+    internal enum DescriptionRib
     {
         simple,
         yeter,
