@@ -8,8 +8,8 @@ namespace MyProject.Classes
 {
     internal enum DescriptionRib
     {
-        simple,
-        yeter,
-        nichav
+        simple=0,
+        yeter=1,
+        nichav=2
     }
 }

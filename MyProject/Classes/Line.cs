@@ -11,7 +11,7 @@ namespace MyProject.Classes
         private string nameLine;
         private char vertex1;
         private char vertex2;
-        private double lenLine;
+        private double lenLine = 0;
 
         public string NameLine { get => nameLine; set => nameLine = value; }
         public char Vertex1 { get => vertex1; set => vertex1 = value; }
