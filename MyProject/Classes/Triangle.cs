@@ -63,21 +63,15 @@ namespace MyProject.Classes
                     return true;
                 }
             }
-            foreach (Angle angle1 in this.angles)//זויות הבסיס שוות
-            {
-                foreach(Angle angle2 in this.angles)
-                {
-                    if (angle1.ValueAngle==angle2.ValueAngle)
-                    {
-                        return true;
-                    }
-                }               
-            }
+            //זויות הבסיס שוות
+            if (this.angles[0].ValueAngle == this.angles[1].ValueAngle || this.angles[0].ValueAngle == this.angles[2].ValueAngle || this.angles[1].ValueAngle == this.angles[2].ValueAngle)
+                return true;
+
             return false;
         }
         public bool check_Equilateral_Triangle()//בדיקה אם המשולש שווה צלעות
         {
-            if (check_Isosceles_Triangle() && this.angles[0].ValueAngle == 60.0)
+            if (check_Isosceles_Triangle() &&( this.angles[0].ValueAngle == 60.0|| this.angles[1].ValueAngle == 60.0||this.angles[2].ValueAngle == 60.0))
                 return true;
             return false;
         }

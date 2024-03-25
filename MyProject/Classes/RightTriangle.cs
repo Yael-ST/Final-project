@@ -12,7 +12,7 @@ namespace MyProject.Classes
         public RightTriangle(string nameTringle, Rib[] ribs, Angle[] angles, List<Line> moreLines, List<Angle> moreAngles, string nameRightAngle) : base(nameTringle, ribs, angles, moreLines, moreAngles)
         {
            this.NameRightAngle = nameRightAngle;
-
+           
         }
 
         public string NameRightAngle { get => nameRightAngle; set => nameRightAngle = value; }
@@ -38,7 +38,7 @@ namespace MyProject.Classes
                     j = i;
                 }               
             }
-            if (y == (j + 1))
+            if (y == (j + 1)) //בודק מה הניצב השני
                 nichav2 = Ribs[2].LenLine;
             else
                 nichav2 = Ribs[3].LenLine;
