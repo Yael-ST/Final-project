@@ -8,9 +8,9 @@ namespace MyProject.Classes
 {
     internal class EquilateralTriangle :Triangle
     {
-        public EquilateralTriangle(string nameTringle, Rib[] ribs, Angle[] angles, List<Line> moreLines, List<Angle> moreAngles):base(nameTringle, ribs, angles, moreLines, moreAngles)      
+        public EquilateralTriangle()
         {
-            foreach(Angle angle in angles) //במשו"צ כל הזויות שוות 60
+            foreach(Angle angle in this.Angles) //במשו"צ כל הזויות שוות 60
             {
                 angle.ValueAngle = 60;
             }

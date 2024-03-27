@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MyProject.Classes
 {
-    internal class Angle
+    internal class Angle : Element
     {
         private string nameAngle;
         private Rib rib1;
@@ -17,5 +17,7 @@ namespace MyProject.Classes
         public double ValueAngle { get => valueAngle; set => valueAngle = value; }
         internal Rib Rib1 { get => rib1; set => rib1 = value; }
         internal Rib Rib2 { get => rib2; set => rib2 = value; }
+
+        public Angle() { }  
     }
 }

@@ -7,43 +7,32 @@ using System.Threading.Tasks;
 
 namespace MyProject.Classes
 {
-    internal class Triangle
+    internal class Triangle : Element
     {
         private string nameTringle;
         private Rib[] ribs;
         private Angle[] angles;
-        private List<Line> moreLines;
+        private List<LineInTriangle> moreLines;
         private List<Angle> moreAngles;
 
         public string NameTringle { get => nameTringle; set => nameTringle = value; }
         internal Angle[] Angles { get => angles; set => angles = value; }
-        internal List<Line> MoreLines { get => moreLines; set => moreLines = value; }
         internal List<Angle> MoreAngles { get => moreAngles; set => moreAngles = value; }
         public Rib[] Ribs { get => ribs; set => ribs = value; }
+        internal List<LineInTriangle> MoreLines { get => moreLines; set => moreLines = value; }
 
         public Triangle()
         {
 
         }
-        public Triangle(string nameTringle, Rib[] ribs, Angle[] angles, List<Line> moreLines, List<Angle> moreAngles)
-        {
-            this.nameTringle = nameTringle;
-            this.ribs = ribs;
-            this.angles = angles;
-            this.moreLines = moreLines;
-            this.moreAngles = moreAngles;
-        }
 
         public double find_Area()  //מציאת שטח
         {
-            foreach (LineInTriangle line in this.moreLines)
-            {
-                if (line.DescriptionLine==DescriptionLine.plumb) 
-                {
-                    return (line.RibDest.LenLine * line.LenLine)/2;
-                }                
-            }
-            return 0.0;
+
+            LineInTriangle plump = this.MoreLines.First(p => p.DescriptionLine == DescriptionLine.plumb);
+            if(plump != null)
+                return (plump.RibDest.LenLine * plump.LenLine) / 2;
+            return 0;
         }
         public double find_Perimeter()//מציאת היקף
         {
@@ -56,7 +45,7 @@ namespace MyProject.Classes
         }
         public bool check_Isosceles_Triangle() //בדיקה אם המשולש שווה שוקיים
         {
-            foreach (LineInTriangle line in this.moreLines)
+            foreach (LineInTriangle line in this.MoreLines)
             {
                 if (line.DescriptionLine == DescriptionLine.plumb && line.DescriptionLine == DescriptionLine.bisectsAngle || line.DescriptionLine == DescriptionLine.plumb && line.DescriptionLine == DescriptionLine.middle || line.DescriptionLine == DescriptionLine.bisectsAngle && line.DescriptionLine == DescriptionLine.middle)
                 {

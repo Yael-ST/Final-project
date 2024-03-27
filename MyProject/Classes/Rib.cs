@@ -14,5 +14,7 @@ namespace MyProject.Classes
 
         public string NameTriangle { get => nameTriangle; set => nameTriangle = value; }
         internal DescriptionRib DescriptionRib { get => descriptionRib; set => descriptionRib = value; }
+
+        public Rib() { }
     }
 }

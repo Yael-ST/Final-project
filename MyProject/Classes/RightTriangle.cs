@@ -9,30 +9,39 @@ namespace MyProject.Classes
     internal class RightTriangle : Triangle
     {
         private string nameRightAngle;
-        public RightTriangle(string nameTringle, Rib[] ribs, Angle[] angles, List<Line> moreLines, List<Angle> moreAngles, string nameRightAngle) : base(nameTringle, ribs, angles, moreLines, moreAngles)
+
+        public RightTriangle()
         {
-           this.NameRightAngle = nameRightAngle;
-           
+            //התיכון ליתר שווה למחצית היתר
+            LineInTriangle middle = this.MoreLines.First(p => p.DescriptionLine == DescriptionLine.middle);
+            if(middle != null) 
+            {
+                var thisRelation = (this.Ribs.First(p => p.DescriptionRib == DescriptionRib.yeter), 0.5);
+                if (middle.GetMyRelations().Contains(thisRelation))
+                {
+                    Relation relation1 = new Relation() { obj1 = middle, obj2 = this.Ribs.First(p => p.DescriptionRib == DescriptionRib.yeter), relation = 0.5 };
+                    this.ListAllRelations.Add(relation1);
+                }
+            }
+
+            
         }
 
         public string NameRightAngle { get => nameRightAngle; set => nameRightAngle = value; }
 
-        public void middle_of_yeter_equal_middle_of_yeter()
-        {
 
-        }
         public double Finding_Length_rib_By_Pythagorean_Theorem() //משפט פיתגורס
         {
             int j=0,y=0;
             double yeter = 0, nichav1 = 0, nichav2 = 0;//שם במשתנים כל אחד מהצלעות
             for (int i = 0; i < this.Ribs.Length; i++)
             {
-                if (Convert.ToInt16(Ribs[i].DescriptionRib) == 1)
+                if (Ribs[i].DescriptionRib==DescriptionRib.yeter)
                 {
                     yeter = Ribs[i].LenLine;
                     y = i;
                 }
-                if (Convert.ToInt16(Ribs[i].DescriptionRib) == 2)
+                if (Ribs[i].DescriptionRib == DescriptionRib.nichav)
                 {
                     nichav1 = Ribs[i].LenLine;
                     j = i;

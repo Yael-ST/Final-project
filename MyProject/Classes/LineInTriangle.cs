@@ -17,5 +17,7 @@ namespace MyProject.Classes
         internal Angle AngleSource { get => angleSource; set => angleSource = value; }
         internal DescriptionLine DescriptionLine { get => descriptionLine; set => descriptionLine = value; }
         public char CutPoint { get => cutPoint; set => cutPoint = value; }
+
+        public LineInTriangle() { }
     }
 }
