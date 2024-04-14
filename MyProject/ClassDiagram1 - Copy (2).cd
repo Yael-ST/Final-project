@@ -1,21 +1,21 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
   <Class Name="MyProject.Classes.Angle" Collapsed="true">
-    <Position X="0.75" Y="3.25" Width="1.5" />
+    <Position X="0.75" Y="5.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>BggAAAAAAAAAAAAABgAAAAAAAAAAAEAAAABAAAAIAAA=</HashCode>
       <FileName>Classes\Angle.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="MyProject.Classes.IsoscelesTriangle" Collapsed="true">
-    <Position X="3.75" Y="3.25" Width="1.5" />
+    <Position X="3.75" Y="5.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>ACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAA=</HashCode>
       <FileName>Classes\IsoscelesTriangle.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="MyProject.Classes.Line" Collapsed="true">
-    <Position X="11.5" Y="2" Width="1.5" />
+  <Class Name="MyProject.Classes.Line">
+    <Position X="11.5" Y="4.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAADACAAAwAAAAAAAgAAAAIAAAAAAAAAIAAAAAAA=</HashCode>
       <FileName>Classes\Line.cs</FileName>
@@ -23,49 +23,49 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="MyProject.Classes.LineInTriangle" Collapsed="true">
-    <Position X="10.25" Y="3.25" Width="1.5" />
+    <Position X="10.25" Y="5.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AEAAAAAAAAAAEAAAAAAAAACAAAAAkAAAQAAAAEBAAAA=</HashCode>
       <FileName>Classes\LineInTriangle.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="MyProject.Classes.RightTriangle" Collapsed="true">
-    <Position X="5.75" Y="3.25" Width="1.5" />
+    <Position X="5.75" Y="5.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAACAAIAAAAAA=</HashCode>
       <FileName>Classes\RightTriangle.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="MyProject.Classes.Triangle" Collapsed="true">
-    <Position X="5.75" Y="2.25" Width="1.5" />
+    <Position X="5.75" Y="4.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAUAAEABAABgARAAAAAEBABABAAAAAAAEAAAABABCA=</HashCode>
       <FileName>Classes\Triangle.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="MyProject.Classes.EquilateralTriangle" Collapsed="true">
-    <Position X="7.75" Y="3.25" Width="1.5" />
+    <Position X="7.75" Y="5.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Classes\EquilateralTriangle.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="MyProject.Classes.Rib" Collapsed="true">
-    <Position X="13" Y="3.25" Width="1.5" />
+    <Position X="13" Y="5.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAEAAAABAAAAAAAACAAAAAgA=</HashCode>
       <FileName>Classes\Rib.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="MyProject.Classes.Element" Collapsed="true">
-    <Position X="7.25" Y="0.75" Width="1.5" />
+  <Class Name="MyProject.Classes.Element">
+    <Position X="7.25" Y="0.75" Width="2.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAQAAAAAAAAAAA=</HashCode>
       <FileName>Classes\Element.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="MyProject.Classes.Relation" Collapsed="true">
-    <Position X="3.5" Y="5.75" Width="1.5" />
+    <Position X="3.5" Y="8" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAACAAAAAAAAABIAAAAAAAAAAA=</HashCode>
       <FileName>Classes\Relation.cs</FileName>
@@ -73,21 +73,21 @@
     <Lollipop Position="0.2" />
   </Class>
   <Interface Name="MyProject.Classes.IRelated" Collapsed="true">
-    <Position X="3.5" Y="4.75" Width="1.5" />
+    <Position X="3.5" Y="7" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Classes\IRelated.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Enum Name="MyProject.Classes.DescriptionLine" Collapsed="true">
-    <Position X="1" Y="5.75" Width="1.5" />
+    <Position X="1" Y="8" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAQAABAAAAAAAABAAAAAAAACAAAA=</HashCode>
       <FileName>Classes\DescriptionLine.cs</FileName>
     </TypeIdentifier>
   </Enum>
   <Enum Name="MyProject.Classes.DescriptionRib" Collapsed="true">
-    <Position X="1" Y="4.75" Width="1.5" />
+    <Position X="1" Y="7" Width="1.5" />
     <TypeIdentifier>
       <HashCode>EAAAAAAAAAAAAAAAAAAIBAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Classes\DescriptionRib.cs</FileName>

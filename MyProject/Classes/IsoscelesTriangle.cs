@@ -12,7 +12,29 @@ namespace MyProject.Classes
         private string nameShok2;
         public IsoscelesTriangle()
         {
+            //שוקיים שווים
+            Rib shok1 = this.Ribs.First(p => p.NameLine ==nameShok1);
+            Rib shok2 = this.Ribs.First(p=>p.NameLine ==nameShok2);
+            if (shok1 != null)
+            {
+                var thisRelation = (shok2, 1);
+                if (shok1.GetMyRelations().Contains(thisRelation))
+                {
+                    Relation relation1 = new Relation() { obj1 = shok1, obj2 = shok2, relation = 1 };
+                    this.ListAllRelations.Add(relation1);
+                }
+            }
             //זוויות הבסיס שוות
+
+
+
+            //מציאת שמות הזוויות
+
+
+            var uniqueChars = nameShok1.Except(nameShok2).Union(nameShok2.Except(nameShok1));
+            string nameAngle1,nameAngle2;
+
+
 
             //אנך & חוצה זוית & תיכון- מתלכדים
             foreach (LineInTriangle line in this.MoreLines)
