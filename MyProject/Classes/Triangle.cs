@@ -7,20 +7,9 @@ using System.Threading.Tasks;
 
 namespace MyProject.Classes
 {
-    internal class Triangle : Element
+    internal class Triangle : Shape
     {
-        private string nameTringle;
-        private Rib[] ribs;
-        private Angle[] angles;
-        private List<LineInTriangle> moreLines;
-        private List<Angle> moreAngles;
-
-        public string NameTringle { get => nameTringle; set => nameTringle = value; }
-        internal Angle[] Angles { get => angles; set => angles = value; }
-        internal List<Angle> MoreAngles { get => moreAngles; set => moreAngles = value; }
-        public Rib[] Ribs { get => ribs; set => ribs = value; }
-        internal List<LineInTriangle> MoreLines { get => moreLines; set => moreLines = value; }
-
+       
         public Triangle()
         {
 
@@ -37,7 +26,7 @@ namespace MyProject.Classes
         public double find_Perimeter()//מציאת היקף
         {
             double perimeter=0;
-            foreach (Rib rib in this.ribs)
+            foreach (Rib rib in this.Ribs)
             {
                 perimeter += rib.LenLine;
             } 
@@ -53,20 +42,20 @@ namespace MyProject.Classes
                 }
             }
             //זויות הבסיס שוות
-            if (this.angles[0].ValueAngle == this.angles[1].ValueAngle || this.angles[0].ValueAngle == this.angles[2].ValueAngle || this.angles[1].ValueAngle == this.angles[2].ValueAngle)
+            if (this.Angles[0].ValueAngle == this.Angles[1].ValueAngle || this.Angles[0].ValueAngle == this.Angles[2].ValueAngle || this.Angles[1].ValueAngle == this.Angles[2].ValueAngle)
                 return true;
 
             return false;
         }
         public bool check_Equilateral_Triangle()//בדיקה אם המשולש שווה צלעות
         {
-            if (check_Isosceles_Triangle() &&( this.angles[0].ValueAngle == 60.0|| this.angles[1].ValueAngle == 60.0||this.angles[2].ValueAngle == 60.0))
+            if (check_Isosceles_Triangle() &&( this.Angles[0].ValueAngle == 60.0|| this.Angles[1].ValueAngle == 60.0||this.Angles[2].ValueAngle == 60.0))
                 return true;
             return false;
         }
         public bool check_RightTriangle()
         {
-            foreach (Angle angle in this.angles)
+            foreach (Angle angle in this.Angles)
             {
                 if (angle.ValueAngle == 90.0)
                     return true;

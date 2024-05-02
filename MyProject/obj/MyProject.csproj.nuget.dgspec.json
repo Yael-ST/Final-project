@@ -44,6 +44,20 @@
       "frameworks": {
         "net8.0": {
           "targetAlias": "net8.0",
+          "dependencies": {
+            "IronOcr": {
+              "target": "Package",
+              "version": "[2024.5.25, )"
+            },
+            "IronOcr.Languages.Hebrew": {
+              "target": "Package",
+              "version": "[2020.11.2, )"
+            },
+            "Tesseract": {
+              "target": "Package",
+              "version": "[5.2.0, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",

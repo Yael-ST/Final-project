@@ -1,26 +1,36 @@
 ﻿using MyProject.Classes;
+using Tesseract;
+using IronOcr;
+using MyProject;
 
-Relation angRelation = new Relation();
-
-void Solve()
+class Program
 {
-    //רשימה של זוויות
-    List<Angle> angles = new List<Angle>();
-    //רשימה של ישרים
-    List<Line> lines = new List<Line>();
+    Relation angRelation = new Relation();
 
-    List<Relation> relations = new List<Relation>();
+    static void Main(string[] args)
+    {
+        IronOCR ocr = new IronOCR();
+        Console.WriteLine(ocr.extract_text_from_img());
+    }
 
-    relations.Add(angRelation);
-    relations.Add(angRelation);
-    relations.Add(angRelation);
+    void Solve()
+    {
+        //רשימה של זוויות
+        List<Angle> angles = new List<Angle>();
+        //רשימה של ישרים
+        List<Line> lines = new List<Line>();
 
-    Line l = new Line();
-    var r = l.GetMyRelations();
+        List<Relation> relations = new List<Relation>();
 
-    EquilateralTriangle tr= new EquilateralTriangle() { ListAllRelations=relations  };
+        relations.Add(angRelation);
+        relations.Add(angRelation);
+        relations.Add(angRelation);
 
-    Common.Relations.Add(null);
+        Line l = new Line();
+        var r = l.GetMyRelations();
 
+        EquilateralTriangle tr = new EquilateralTriangle() { ListAllRelations = relations };
 
+        Common.Relations.Add(null);
+    }
 }

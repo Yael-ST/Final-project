@@ -15,7 +15,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="MyProject.Classes.Line" Collapsed="true">
-    <Position X="11.5" Y="2" Width="1.5" />
+    <Position X="13" Y="1.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAADACAAAwAAAAAAAgAAAAIAAAAAAAAAIAAAAAAA=</HashCode>
       <FileName>Classes\Line.cs</FileName>
@@ -39,7 +39,7 @@
   <Class Name="MyProject.Classes.Triangle" Collapsed="true">
     <Position X="5.75" Y="2.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAUAAEABAABgARAAAAAEBABABAAAAAAAEAAAABABCA=</HashCode>
+      <HashCode>AAAQAAAAAAAAgABAAAAAABABAAAAAAAAAAAAAAAAACA=</HashCode>
       <FileName>Classes\Triangle.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -58,7 +58,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="MyProject.Classes.Element" Collapsed="true">
-    <Position X="7.25" Y="0.75" Width="1.5" />
+    <Position X="8.5" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAQAAAAAAAAAAA=</HashCode>
       <FileName>Classes\Element.cs</FileName>
@@ -71,6 +71,13 @@
       <FileName>Classes\Relation.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="MyProject.Classes.Shape" Collapsed="true">
+    <Position X="5.75" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAEABAABAAQAAAAAEAQAABAEAAAAAEAAAABAAAA=</HashCode>
+      <FileName>Classes\Shape.cs</FileName>
+    </TypeIdentifier>
   </Class>
   <Interface Name="MyProject.Classes.IRelated" Collapsed="true">
     <Position X="3.5" Y="4.75" Width="1.5" />

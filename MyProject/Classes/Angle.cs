@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MyProject.Classes
 {
-    internal class Angle : Element
+    internal class Angle : Element, IRelated
     {
         private string nameAngle;
         private Rib rib1;
