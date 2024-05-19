@@ -10,6 +10,7 @@
         "dependencies": {
           "IronOcr": "2024.5.25",
           "IronOcr.Languages.Hebrew": "2020.11.2",
+          "IronXL.Excel": "2024.5.5",
           "Tesseract": "5.2.0"
         },
         "runtime": {
@@ -197,6 +198,18 @@
           "lib/net60/IronSoftware.Drawing.Common.dll": {
             "assemblyVersion": "2024.5.0.1",
             "fileVersion": "2024.5.0.1"
+          }
+        }
+      },
+      "IronXL.Excel/2024.5.5": {
+        "dependencies": {
+          "IronSoftware.Common": "2024.1.7",
+          "IronSoftware.System.Drawing": "2024.5.1"
+        },
+        "runtime": {
+          "lib/netstandard2.1/IronXL.dll": {
+            "assemblyVersion": "2024.5.0.5",
+            "fileVersion": "2024.5.0.5"
           }
         }
       },
@@ -511,6 +524,13 @@
       "sha512": "sha512-c5rwzj3RssRd8dy7/Vl66/3tGwdaGKBRb7H1eurv3luoWb9UrZBzFT+Zfp0HcmaYLTT4qcs3YNQOl2sxbOBHpg==",
       "path": "ironsoftware.system.drawing/2024.5.1",
       "hashPath": "ironsoftware.system.drawing.2024.5.1.nupkg.sha512"
+    },
+    "IronXL.Excel/2024.5.5": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-XdlUmq8AaXkcz8DWaosgog1mjXDdKa1ZjkjeHSDtxD50Csky5+GBqTpATQKD/6jdhh1CFFdoOkVuA5BDdQbkCQ==",
+      "path": "ironxl.excel/2024.5.5",
+      "hashPath": "ironxl.excel.2024.5.5.nupkg.sha512"
     },
     "Microsoft.Extensions.Configuration/6.0.0": {
       "type": "package",

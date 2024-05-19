@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "dy7028HSFnFIAcbN6Ku5zK9FN6CJu9XZ6Tg8qA19rU9v4ei4AxUF5AzziDDJDqrTBps+tMo13eAsAfeRuALKJQ==",
+  "dgSpecHash": "9GAZMKYNt4Vaf68lEGtP28FaCMUxCMhhtvoe4BIoAd3yDl7dtVDa5ns8fdYggP8FDx0fNujvA7MuJv3zauNu5A==",
   "success": true,
   "projectFilePath": "C:\\Users\\win 10\\Desktop\\my-project\\MyProject\\MyProject.csproj",
   "expectedPackageFiles": [
@@ -9,6 +9,7 @@
     "C:\\Users\\win 10\\.nuget\\packages\\ironocr.languages.hebrew\\2020.11.2\\ironocr.languages.hebrew.2020.11.2.nupkg.sha512",
     "C:\\Users\\win 10\\.nuget\\packages\\ironsoftware.common\\2024.1.7\\ironsoftware.common.2024.1.7.nupkg.sha512",
     "C:\\Users\\win 10\\.nuget\\packages\\ironsoftware.system.drawing\\2024.5.1\\ironsoftware.system.drawing.2024.5.1.nupkg.sha512",
+    "C:\\Users\\win 10\\.nuget\\packages\\ironxl.excel\\2024.5.5\\ironxl.excel.2024.5.5.nupkg.sha512",
     "C:\\Users\\win 10\\.nuget\\packages\\microsoft.extensions.configuration\\6.0.0\\microsoft.extensions.configuration.6.0.0.nupkg.sha512",
     "C:\\Users\\win 10\\.nuget\\packages\\microsoft.extensions.configuration.abstractions\\6.0.0\\microsoft.extensions.configuration.abstractions.6.0.0.nupkg.sha512",
     "C:\\Users\\win 10\\.nuget\\packages\\microsoft.extensions.configuration.binder\\6.0.0\\microsoft.extensions.configuration.binder.6.0.0.nupkg.sha512",

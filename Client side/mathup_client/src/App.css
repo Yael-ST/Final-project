@@ -1,0 +1,70 @@
+.App {
+  background-color: white;
+  color: rgb(50, 186, 172);
+  text-align: center;
+  height: 100vh;
+  
+}
+
+.back{
+  max-height: 71%; 
+
+}
+.logoImage {
+  width: 15%;
+  position: absolute;
+  top: 10% !important; /* מרכז את הכיתוב אנכית */
+  left: 5% !important; /* מרכז את הכיתוב אופקית */
+}
+
+.buttons {
+  margin-top: 20px;
+  font-family: 'Yehuda CLM';
+
+}
+
+button {
+  background-color: rgba(40, 174, 161, 0.833);
+  color: white;
+  padding: 13px 13px;
+  margin: 0 10px;
+  border: white;
+  border-radius: 20px;
+  cursor: pointer;
+}
+.imageContainer {
+  position: relative;
+  width: 100%;
+  margin: 0 auto; /* מרכז את התמונה באופן אופקי */
+}
+
+.image {
+  width: 100%; /* מלא את רוחב העמוד */
+  display: block;
+}
+
+.captionContainer {
+  position: absolute;
+  top: 40%; /* מרכז את הכיתוב אנכית */
+  left: 50%; /* מרכז את הכיתוב אופקית */
+  transform: translate(-50%, -50%); /* מקדם את הכיתוב למרכז התמונה */
+  color: white;
+  font-size: 2em;
+  font-family: 'FtPilKahol';
+     
+}
+
+.captionText {
+  margin: 0;
+}
+
+#captionText2{
+  font-family:'FtPilKahol'!important;
+}
+.SelectedImage2{
+
+  width:50%;
+}
+.SelectedImage3{
+  border-color: black;
+}

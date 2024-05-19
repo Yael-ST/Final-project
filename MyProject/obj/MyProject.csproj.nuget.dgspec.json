@@ -53,6 +53,10 @@
               "target": "Package",
               "version": "[2020.11.2, )"
             },
+            "IronXL.Excel": {
+              "target": "Package",
+              "version": "[2024.5.5, )"
+            },
             "Tesseract": {
               "target": "Package",
               "version": "[5.2.0, )"

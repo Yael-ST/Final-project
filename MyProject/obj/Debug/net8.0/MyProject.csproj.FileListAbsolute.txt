@@ -75,3 +75,4 @@ C:\Users\win 10\Desktop\my-project\MyProject\bin\Debug\net8.0\runtimes\win\lib\n
 C:\Users\win 10\Desktop\my-project\MyProject\bin\Debug\net8.0\runtimes\win\lib\net6.0\System.Security.Cryptography.ProtectedData.dll
 C:\Users\win 10\Desktop\my-project\MyProject\bin\Debug\net8.0\runtimes\win\lib\net6.0\System.Windows.Extensions.dll
 C:\Users\win 10\Desktop\my-project\MyProject\bin\Debug\net8.0\OcrData\Hebrew.ocrdata
+C:\Users\win 10\Desktop\my-project\MyProject\bin\Debug\net8.0\IronXL.dll
