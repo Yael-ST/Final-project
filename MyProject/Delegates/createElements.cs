@@ -9,7 +9,7 @@ namespace MyProject.Delegates
 {
     internal class createElements
     {
-        public delegate void create_triangle();
+        public delegate Triangle create_triangle();
         public delegate void create_isosceles_triangle();
         public delegate void create_equilateral_triangle();
         public delegate void create_right_triangle();
@@ -28,6 +28,7 @@ namespace MyProject.Delegates
             triangle.Name = "";
             return triangle;
         }
+        create_triangle handler=func_create_triangle;
 
 
     }

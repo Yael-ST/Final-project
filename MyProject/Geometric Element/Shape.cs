@@ -19,5 +19,14 @@ namespace MyProject.Classes
         public Rib[] Ribs { get => ribs; set => ribs = value; }
         internal List<LineInTriangle> MoreLines { get => moreLines; set => moreLines = value; }
         public string Name { get => name; set => name = value; }
+
+        public Shape()
+        {
+        }
+        public void sortNameShape()
+        {
+            this.name = new string(this.name.Where(char.IsLetter).OrderBy(char.ToLower).ToArray());
+
+        }
     }
 }

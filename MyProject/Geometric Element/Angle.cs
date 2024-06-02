@@ -11,7 +11,7 @@ namespace MyProject.Classes
         private string nameAngle;
         private Rib rib1;
         private Rib rib2;
-        private double valueAngle;
+        private double valueAngle=0;
 
         public string NameAngle { get => nameAngle; set => nameAngle = value; }
         public double ValueAngle { get => valueAngle; set => valueAngle = value; }

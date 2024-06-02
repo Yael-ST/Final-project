@@ -10,13 +10,15 @@ namespace MyProject.Classes
     {
         private DescriptionLine descriptionLine;
         private Rib ribDest;
-        private Angle angleSource;
+        private string nameAngleSource;
+        private char vertexSource;
         private char cutPoint;
 
         internal Rib RibDest { get => ribDest; set => ribDest = value; }
-        internal Angle AngleSource { get => angleSource; set => angleSource = value; }
         internal DescriptionLine DescriptionLine { get => descriptionLine; set => descriptionLine = value; }
         public char CutPoint { get => cutPoint; set => cutPoint = value; }
+        public char VertexSource { get => vertexSource; set => vertexSource = value; }
+        public string NameAngleSource { get => nameAngleSource; set => nameAngleSource = value; }
 
         public LineInTriangle() { }
     }

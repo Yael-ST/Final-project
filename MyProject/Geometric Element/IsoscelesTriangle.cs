@@ -45,7 +45,6 @@ namespace MyProject.Classes
                 line.DescriptionLine = DescriptionLine.middle;
                 line.DescriptionLine = DescriptionLine.plumb;
                 line.DescriptionLine = DescriptionLine.bisectsAngle;
-
             }
         }
         public string NameShok1 { get => nameShok1; set => nameShok1 = value; }
@@ -55,7 +54,6 @@ namespace MyProject.Classes
         public string[] find_names_of_base_angles()
         {
             string[] angels = new string[2];
-            // Determine the base angles by string manipulation
             angels[0] = this.nameShok1[0].ToString() + this.nameShok1[1].ToString() + this.nameShok2[1].ToString(); // ABC
             angels[1] = this.nameShok2[0].ToString() + this.nameShok2[1].ToString() + this.NameShok1[1].ToString(); // ACB
 

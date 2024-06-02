@@ -71,9 +71,9 @@ function App() {
         <div className="selectedImage3">
           <img src={selectedImage} alt="Selected Image" className="SelectedImage2" />
           <div>
-            <button onClick={cancelSelection}>ביטול</button>
+          <button onClick={cancelSelection}>ביטול</button>
           </div>
-        </div>
+        </div> 
       )}
       {showCamera && (
         <div>
@@ -90,6 +90,7 @@ function App() {
             )}
           </div>
         </div>
+        
       )}
     </div>
   );
