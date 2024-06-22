@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<Project ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ImportGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
+    <Import Project="$(NuGetPackageRoot)tesseract\5.2.0\build\Tesseract.targets" Condition="Exists('$(NuGetPackageRoot)tesseract\5.2.0\build\Tesseract.targets')" />
+    <Import Project="$(NuGetPackageRoot)mono.unix\7.1.0-final.1.21458.1\build\Mono.Unix.targets" Condition="Exists('$(NuGetPackageRoot)mono.unix\7.1.0-final.1.21458.1\build\Mono.Unix.targets')" />
+    <Import Project="$(NuGetPackageRoot)microsoft.extensions.logging.abstractions\6.0.0\build\Microsoft.Extensions.Logging.Abstractions.targets" Condition="Exists('$(NuGetPackageRoot)microsoft.extensions.logging.abstractions\6.0.0\build\Microsoft.Extensions.Logging.Abstractions.targets')" />
+    <Import Project="$(NuGetPackageRoot)ironocr\2024.5.25\buildTransitive\net6.0\IronOcr.targets" Condition="Exists('$(NuGetPackageRoot)ironocr\2024.5.25\buildTransitive\net6.0\IronOcr.targets')" />
+    <Import Project="$(NuGetPackageRoot)ironocr.languages.hebrew\2020.11.2\build\IronOcr.Languages.Hebrew.targets" Condition="Exists('$(NuGetPackageRoot)ironocr.languages.hebrew\2020.11.2\build\IronOcr.Languages.Hebrew.targets')" />
+  </ImportGroup>
+</Project>

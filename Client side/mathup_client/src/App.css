@@ -3,7 +3,6 @@
   color: rgb(50, 186, 172);
   text-align: center;
   height: 100vh;
-  
 }
 
 .back{
@@ -31,6 +30,8 @@ button {
   border: white;
   border-radius: 20px;
   cursor: pointer;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 11px;
 }
 .imageContainer {
   position: relative;
