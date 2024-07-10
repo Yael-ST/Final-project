@@ -8,49 +8,57 @@ namespace MyProject.Classes
 {
     internal class RightTriangle : Triangle
     {
-        private string nameRightAngle;
+        private Angle rightAngle;
 
         public RightTriangle()
         {
 
-            var angle = this.Angles.FirstOrDefault(x => x.NameAngle == this.NameRightAngle);
-            if (angle != null)
-            {
-                angle.ValueAngle = 90;
-            }
-
-            //התיכון ליתר שווה למחצית היתר
-            LineInTriangle middle = this.MoreLines.First(p => p.DescriptionLine == DescriptionLine.middle);
-            if(middle != null) 
-            {
-                var thisRelation = (this.Ribs.First(p => p.DescriptionRib == DescriptionRib.yeter), 0.5);
-                if (middle.GetMyRelations().Contains(thisRelation))
-                {
-                    Relation relation1 = new Relation() { obj1 = middle, obj2 = this.Ribs.First
-                        (p => p.DescriptionRib == DescriptionRib.yeter), relation = 0.5 };
-                    this.ListAllRelations.Add(relation1);
-                }
-            }            
         }
 
-        public string NameRightAngle { get => nameRightAngle; set => nameRightAngle = value; }
+        internal Angle RightAngle { get => rightAngle; set => rightAngle = value; }
 
-
-        public double Finding_Length_rib_By_Pythagorean_Theorem() //משפט פיתגורס
+        public void Set_attributes_of_the_Right_triangle()
         {
+            this.rightAngle.ValueAngle = 90;
 
-            double nichav1=this.Ribs.First(x=>x.DescriptionRib==DescriptionRib.nichav).LenLine;
-            double nichav2=this.Ribs.Last(x=>x.DescriptionRib==DescriptionRib.nichav).LenLine;
-            double yeter=this.Ribs.First(x=>x.DescriptionRib==DescriptionRib.yeter).LenLine;
-
+            //התיכון ליתר שווה למחצית היתר
+            The_middle_for_yeter();
+        }
+        public double? Finding_Length_rib_By_Pythagorean_Theorem() //משפט פיתגורס
+        {
+            double? nichav1 = this.Ribs.FirstOrDefault(x => x.DescriptionRib == DescriptionRib.nichav)?.LenLine;
+            double? nichav2 = this.Ribs.LastOrDefault(x => x.DescriptionRib == DescriptionRib.nichav)?.LenLine;
+            double? yeter = this.Ribs.FirstOrDefault(x => x.DescriptionRib == DescriptionRib.yeter)?.LenLine;
+            double? temp = -1;
             if (yeter == 0)
-                return Math.Sqrt(nichav1 * nichav1 + nichav2 * nichav2);
+                temp = nichav1 * nichav1 + nichav2 * nichav2;
             if (nichav1 == 0)
-                return Math.Sqrt(yeter * yeter - nichav2 * nichav2 );
+                temp = yeter * yeter - nichav2 * nichav2;
             if (nichav2 == 0)
-                return Math.Sqrt(yeter * yeter - nichav1 * nichav1 );
-
-            return -1;
-        }          
+                temp = yeter * yeter - nichav1 * nichav1;
+            return Math.Sqrt((double)temp!);
+        }
+        public void The_middle_for_yeter()
+        {
+            LineInShape middle = this.MoreLines.First(p => p.DescriptionLine == DescriptionLine.middle);
+            if (middle != null)
+            {
+                Rib yeter = this.Ribs.FirstOrDefault(p => p.DescriptionRib == DescriptionRib.yeter)!;
+                if (yeter != null)
+                {
+                    var thisRelation = (yeter, 0.5);
+                    if (middle.GetMyRelations().Contains(thisRelation))
+                    {
+                        Relation relation1 = new Relation()
+                        {
+                            obj1 = middle,
+                            obj2 = yeter,
+                            relation = 0.5
+                        };
+                        this.ListAllRelations.Add(relation1);
+                    }
+                }
+            }
+        }
     }
 }

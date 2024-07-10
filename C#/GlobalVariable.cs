@@ -12,6 +12,12 @@ namespace MyProject
         public static List<Shape> shapes = new List<Shape>();
         public static List<Line> lines = new List<Line>();
         public static List<Angle> angles = new List<Angle>();
-        
+
+        public static Graph graph_of_relevant_sentences = graph_of_relevant_sentences = new Graph();
+
+        public static List<Sentence> relevant_sentences=new List<Sentence>();
+
+        public static Stack<Sentence> callStack=new Stack<Sentence>();
+
     }
 }

@@ -61,9 +61,17 @@
               "target": "Package",
               "version": "[2024.5.5, )"
             },
+            "Python.Runtime": {
+              "target": "Package",
+              "version": "[2.7.9, )"
+            },
             "Tesseract": {
               "target": "Package",
               "version": "[5.2.0, )"
+            },
+            "pythonnet": {
+              "target": "Package",
+              "version": "[3.0.3, )"
             }
           },
           "imports": [

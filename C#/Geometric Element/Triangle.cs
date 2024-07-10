@@ -10,68 +10,48 @@ namespace MyProject.Classes
 {
     internal class Triangle : Shape
     {
-        private List<LineInTriangle> moreLines;
-        internal List<LineInTriangle> MoreLines { get => moreLines; set => moreLines = value; }
         public Triangle()
         {
+            this.Ribs = new Rib[3];
+            this.Angles = new Angle[3];
+        }
 
-        }
-       /// <summary>
-       /// מציאת שטח
-       /// </summary>
-       /// <returns></returns>
-        public double find_Area()  
-        {
-            LineInTriangle plump = this.MoreLines.First(p => p.DescriptionLine == DescriptionLine.plumb);
-            if (plump != null)
-                return (plump.RibDest.LenLine * plump.LenLine) / 2;
-            return 0;
-        }
+
         /// <summary>
-        /// מציאת היקף
+        /// מציאת שטח
         /// </summary>
         /// <returns></returns>
-        public double find_Perimeter()
+        public double find_Area()
         {
-            double perimeter = 0;
-            foreach (Rib rib in this.Ribs)
-            {
-                perimeter += rib.LenLine;
-            }
-            return perimeter;
+            LineInShape? plump = this.MoreLines.FirstOrDefault(p => p.DescriptionLine == DescriptionLine.plumb);
+            if (plump != null)
+                return (plump.RibDest.LenLine ?? 1 * plump.LenLine ?? 1) / 2;
+            return 0;
         }
+
         /// <summary>
         /// בדיקה אם המשולש שווה שוקיים
         /// </summary>
         /// <returns></returns>
-        public bool check_Isosceles_Triangle() 
+        public bool check_Isosceles_Triangle()
         {
-            foreach (LineInTriangle line in this.MoreLines)
+            foreach (LineInShape line in this.MoreLines)
             {
-                if (line.DescriptionLine == DescriptionLine.plumb && line.DescriptionLine == DescriptionLine.bisectsAngle 
-                    || line.DescriptionLine == DescriptionLine.plumb && line.DescriptionLine == DescriptionLine.middle 
+                if (line.DescriptionLine == DescriptionLine.plumb && line.DescriptionLine == DescriptionLine.bisectsAngle
+                    || line.DescriptionLine == DescriptionLine.plumb && line.DescriptionLine == DescriptionLine.middle
                     || line.DescriptionLine == DescriptionLine.bisectsAngle && line.DescriptionLine == DescriptionLine.middle)
                 {
                     return true;
                 }
             }
-            //זויות הבסיס שוות
-            if (this.Angles[0].ValueAngle == this.Angles[1].ValueAngle 
-                || this.Angles[0].ValueAngle == this.Angles[2].ValueAngle 
-                || this.Angles[1].ValueAngle == this.Angles[2].ValueAngle)
-                return true;
-
-            //חיפוש זוויות שוות
+            
+            //זוויות הבסיס שוות
             foreach (Angle angle1 in this.Angles)
             {
-                var thisRelation = (angle1, 1);
-
                 foreach (Angle angle2 in this.Angles)
                 {
-                    if (angle1 != angle2 && angle2.GetMyRelations().Contains(thisRelation))
-                    {
+                    if (angle1 != angle2 && Is_equal<Angle>(angle1, angle2) ||angle1.ValueAngle==angle2.ValueAngle)
                         return true;
-                    }
                 }
             }
             return false;
@@ -82,15 +62,16 @@ namespace MyProject.Classes
         /// <returns></returns>
         public bool check_Equilateral_Triangle()
         {
-            if (check_Isosceles_Triangle() 
-                && (this.Angles[0].ValueAngle == 60.0 
-                || this.Angles[1].ValueAngle == 60.0 
+            if (check_Isosceles_Triangle()
+                && (this.Angles[0].ValueAngle == 60.0
+                || this.Angles[1].ValueAngle == 60.0
                 || this.Angles[2].ValueAngle == 60.0))
+                return true;
+            if (Is_equal<Angle>(this.Angles[0], this.Angles[1])
+                && Is_equal<Angle>(this.Angles[1], this.Angles[2]))
                 return true;
             return false;
         }
-
-        //להוסיף relations
 
         public bool check_RightTriangle()
         {
@@ -101,39 +82,153 @@ namespace MyProject.Classes
             }
             return false;
         }
-        public void Overlap(Triangle triangle2)
+        /// <summary>
+        /// חפיפה
+        /// </summary>
+        /// <param name="triangle2"></param>
+        /// <returns></returns>
+        public bool Overlap(Triangle triangle2)
         {
-            //צלע זווית צלע
-            //חיפוש זוויות שוות
-            string nameAngle1, nameAngle2;
+            if (this.Overlap_Rib_Rib_Rib(triangle2)
+                || this.Overlap_Rib_Angle_Rib(triangle2)
+                || this.Overlap_Angle_Rib_Angle(triangle2))
+                return true;
+            return false;
+        }
 
-
-            foreach (Angle angle1 in this.Angles)
+        /// <summary>
+        /// חפיפה לפי צלע צלע צלע
+        /// </summary>
+        /// <param name="triangle2"></param>
+        /// <returns></returns>
+        public  bool Overlap_Rib_Rib_Rib(Triangle triangle2)
+        {
+            //בניית מילון של זוגות של צלעות שוות
+            Dictionary<Rib, Rib> overlapRibs = new Dictionary<Rib, Rib>();
+            Triangle triangle1 = this;
+            //מעבר על המשולש הראשון ובדיקה אם קיימות צלעות שוות בשתי המשולשים
+            foreach (Rib rib_in_t1 in triangle1.Ribs.Except(overlapRibs.Keys))
             {
-                var thisRelation = (angle1, 1);
+                Rib? eq_rib_in_t2 = triangle2.Ribs.Except(overlapRibs.Values).FirstOrDefault(x => x.LenLine == rib_in_t1.LenLine);
+                Rib? re_rib_in_t2 = triangle2.Ribs.Except(overlapRibs.Values).FirstOrDefault(x => x.Is_equal<Rib>(rib_in_t1, x));
 
-                foreach (Angle angle2 in triangle2.Angles)
+                if (eq_rib_in_t2 == null && re_rib_in_t2 == null)
+                    return false;
+                overlapRibs.Add(rib_in_t1, eq_rib_in_t2 ?? re_rib_in_t2!);
+            }
+            //אם קיימים 3 זוגות אזי המשולשים חופפים
+            if (overlapRibs.Count() == 3)
+                return true;
+            return false;
+        }
+
+        /// <summary>
+        /// חפיפה לפי צלע זווית צלע
+        /// </summary>
+        /// <param name="triangle2"></param>
+        /// <returns></returns>
+        public bool Overlap_Rib_Angle_Rib(Triangle triangle2)
+        {
+            //בניית מילון של זוגות מסוג מחלקת העל אלמנט: או צלע או זווית
+            Dictionary<Element, Element> overlapElement = new Dictionary<Element, Element>();
+            Triangle triangle1 = this;
+            //מוסיפים למילון את כל הזוגות של הצלעות השוות
+            foreach (Rib rib_in_t1 in triangle1.Ribs.Except(overlapElement.Keys))
+            {
+                Rib? eq_rib_in_t2 = triangle2.Ribs.Except(overlapElement.Values.Where(a => a is Rib).Select(a => a as Rib)).FirstOrDefault(x => x!.LenLine == rib_in_t1.LenLine);
+                Rib? re_rib_in_t2 = triangle2.Ribs.Except(overlapElement.Values.Where(a => a is Rib).Select(a => a as Rib)).FirstOrDefault(x => x!.Is_equal<Rib>(rib_in_t1, x));
+
+                if (eq_rib_in_t2 == null && re_rib_in_t2 == null)
+                    return false;
+                overlapElement.Add(rib_in_t1, eq_rib_in_t2 ?? re_rib_in_t2!);
+            }
+            //מוסיפים למליון את כל הזוגות של הזוויות השוות
+            foreach (Angle rib_in_t1 in triangle1.Angles.Except(overlapElement.Keys))
+            {
+                Angle? eq_rib_in_t2 = triangle2.Angles.Except(overlapElement.Values.Where(a => a is Angle).Select(a => a as Angle)).FirstOrDefault(x => x!.ValueAngle == rib_in_t1.ValueAngle);
+                Angle? re_rib_in_t2 = triangle2.Angles.Except(overlapElement.Values.Where(a => a is Angle).Select(a => a as Angle)).FirstOrDefault(x => x!.Is_equal<Angle>(rib_in_t1, x));
+
+                if (eq_rib_in_t2 == null && re_rib_in_t2 == null)
+                    return false;
+                overlapElement.Add(rib_in_t1, eq_rib_in_t2 ?? re_rib_in_t2!);
+            }
+            //בודקים אם יש ברצף צלע זווית צלע
+            foreach (Element item in overlapElement.Keys)
+            {
+                if (item is Angle)
                 {
-                    if (angle2.GetMyRelations().Contains(thisRelation))
+                    if (overlapElement.ContainsKey(((Angle)item).Rib1) || overlapElement.ContainsValue(((Angle)item).Rib1))
                     {
-                        nameAngle1 = angle2.NameAngle;
-                        nameAngle2 = angle1.NameAngle;
-                        break;
+                        if (overlapElement.ContainsKey(((Angle)item).Rib2) || overlapElement.ContainsValue(((Angle)item).Rib2))
+                            return true;
                     }
                 }
             }
+            return false;
+        }
 
-            //חיפוש צלעות שוות
-            //  string nameRib1 = nameAngle1[0].ToString() + nameAngle1[1].ToString();
-            //  string nameRib2 = nameAngle2[0].ToString() + nameAngle2[1].ToString();
-            //  Rib rib1 = this.Ribs.First(x => x.NameLine == nameRib1);
-            //  Rib rib2 = this.Ribs.First(x => x.NameLine == nameRib2);
-            //  var thisRelation2 = (rib2, 1);
-            //  if (rib1.GetMyRelations().Contains(thisRelation2))
-            //  {
+        /// <summary>
+        /// חפיפה לפי זווית צלע זווית
+        /// </summary>
+        /// <param name="triangle2"></param>
+        /// <returns></returns>
+        public bool Overlap_Angle_Rib_Angle(Triangle triangle2)
+        {
+            //בניית מילון של זוגות מסוג מחלקת העל אלמנט: או צלע או זווית
+            Dictionary<Element, Element> overlapElement = new Dictionary<Element, Element>();
+            Triangle triangle1 = this;
+            //מוסיפים למילון את כל הזוגות של הצלעות השוות
+            foreach (Rib rib_in_t1 in triangle1.Ribs.Except(overlapElement.Keys))
+            {
+                Rib? eq_rib_in_t2 = triangle2.Ribs.Except(overlapElement.Values.Where(a => a is Rib).Select(a => a as Rib)).FirstOrDefault(x => x!.LenLine == rib_in_t1.LenLine);
+                Rib? re_rib_in_t2 = triangle2.Ribs.Except(overlapElement.Values.Where(a => a is Rib).Select(a => a as Rib)).FirstOrDefault(x => x!.Is_equal<Rib>(rib_in_t1, x));
 
-            //  }
+                if (eq_rib_in_t2 == null && re_rib_in_t2 == null)
+                    return false;
+                overlapElement.Add(rib_in_t1, eq_rib_in_t2 ?? re_rib_in_t2!);
+            }
+            //מוסיפים למליון את כל הזוגות של הזוויות השוות
+            foreach (Angle rib_in_t1 in triangle1.Angles.Except(overlapElement.Keys))
+            {
+                Angle? eq_rib_in_t2 = triangle2.Angles.Except(overlapElement.Values.Where(a => a is Angle).Select(a => a as Angle)).FirstOrDefault(x => x!.ValueAngle == rib_in_t1.ValueAngle);
+                Angle? re_rib_in_t2 = triangle2.Angles.Except(overlapElement.Values.Where(a => a is Angle).Select(a => a as Angle)).FirstOrDefault(x => x!.Is_equal<Angle>(rib_in_t1, x));
 
+                if (eq_rib_in_t2 == null && re_rib_in_t2 == null)
+                    return false;
+                overlapElement.Add(rib_in_t1, eq_rib_in_t2 ?? re_rib_in_t2!);
+            }
+            //בודקים אם יש ברצף זווית צלע זווית
+            foreach (Element item in overlapElement.Keys)
+            {
+                if (item is Rib)
+                {
+                    var angle1 = Find_matching_Angle(overlapElement, ((Rib)item).NameLine[0]);
+                    if (angle1 != null)
+                    {
+                        var angle2 = Find_matching_Angle(overlapElement, ((Rib)item).NameLine[1]);
+                        if (angle2 != null)
+                            return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// בדיקה אם זווית שליד צלע מסוימת קיימת במילון
+        /// </summary>
+        /// <param name="dictionary"></param>
+        /// <param name="charOfLine"></param>
+        /// <returns></returns>
+        public Element Find_matching_Angle(Dictionary<Element, Element> dictionary, char charOfLine)
+        {
+            // בדיקת מפתחות
+            var keyMatch = dictionary.Keys.Where(a => a is Angle).FirstOrDefault(x => ((Angle)x).NameAngle[1] == charOfLine);
+            if (keyMatch != null)
+                return keyMatch!;
+            // בדיקת ערכים
+            var valueMatch = dictionary.Values.Where(a => a is Angle).FirstOrDefault(x => ((Angle)x).NameAngle[1] == charOfLine);
+            return valueMatch!;
         }
         /// <summary>
         /// השלמת זוויות במשולש
@@ -147,11 +242,5 @@ namespace MyProject.Classes
             else if (this.Angles[2].ValueAngle > 0 && this.Angles[0].ValueAngle > 0)
                 this.Angles[1].ValueAngle = 180 - (this.Angles[2].ValueAngle + this.Angles[0].ValueAngle);
         }
-
-
-        // בתוך כל פונקציה נעשה זימונים של הרבה פונקציות, כל פונקצייה- דרך אחרת להוכיח
-        //אולי שכל פונקציה תחזיר מערך של המשפטים שהיא השתמשה בהם בשביל הפלט של ההוכחה
-        //או שכל משפט זה פונקציה ואז נעשה טבלה של כל המשפטים, כל משפט עם הפונקצציה שלו
     }
-
 }

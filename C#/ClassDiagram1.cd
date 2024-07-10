@@ -3,7 +3,7 @@
   <Class Name="MyProject.Classes.Angle" Collapsed="true">
     <Position X="1" Y="5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>BggAAAAAAAAAAAAABgAAAAAAAAAAAEAAAABAAAAIAAA=</HashCode>
+      <HashCode>BggAAAAAAAAAAAAABgAAQAAAAAAAAEAAAABAAAAIAAA=</HashCode>
       <FileName>Geometric Element\Angle.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
@@ -11,43 +11,43 @@
   <Class Name="MyProject.Classes.IsoscelesTriangle" Collapsed="true">
     <Position X="4" Y="5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>ACAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAgAAA=</HashCode>
+      <HashCode>AAAAAAACAAAAAkABAAAAAwAgAAAAAAAAAAAACAAAAAA=</HashCode>
       <FileName>Geometric Element\IsoscelesTriangle.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="MyProject.Classes.Line" Collapsed="true">
     <Position X="11.75" Y="3.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAACAAAAAAAAAAAgAAAAIAAAAAAAAAKAAAAAgA=</HashCode>
+      <HashCode>AAAAAABACAAAQAIAAAAAgAAAAIAAAAAAAAAIAAAAAAA=</HashCode>
       <FileName>Geometric Element\Line.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
-  <Class Name="MyProject.Classes.LineInTriangle" Collapsed="true">
+  <Class Name="MyProject.Classes.LineInShape" Collapsed="true">
     <Position X="10.5" Y="5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AkAAAAAAAAAAEAAAAAAAAACAAAAAkAAAACAAAAJgAAA=</HashCode>
-      <FileName>Geometric Element\LineInTriangle.cs</FileName>
+      <FileName>Geometric Element\LineInShape.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="MyProject.Classes.RightTriangle">
-    <Position X="6" Y="7.75" Width="1.5" />
+  <Class Name="MyProject.Classes.RightTriangle" Collapsed="true">
+    <Position X="6" Y="5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAACAAIAAAAAA=</HashCode>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAAEABAAAAAAAAAAAIAAAAgA=</HashCode>
       <FileName>Geometric Element\RightTriangle.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="MyProject.Classes.Triangle">
-    <Position X="6" Y="4" Width="1.5" />
+  <Class Name="MyProject.Classes.Triangle" Collapsed="true">
+    <Position X="6" Y="3.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAQAAAABAAAgARgAAAAABABAAAAAAAAAAAAAAAAACA=</HashCode>
+      <HashCode>AAAQQAAAIAAAgABgEAAAABAAAQAAAAAAAAAAAAAAACA=</HashCode>
       <FileName>Geometric Element\Triangle.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="MyProject.Classes.EquilateralTriangle" Collapsed="true">
     <Position X="8" Y="5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Geometric Element\EquilateralTriangle.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -59,14 +59,14 @@
     </TypeIdentifier>
   </Class>
   <Class Name="MyProject.Classes.Element" Collapsed="true">
-    <Position X="6" Y="0.75" Width="1.5" />
+    <Position X="6" Y="1.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAQAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAIIAAAAAAAAAAAAAACQAAAAAAAQAAA=</HashCode>
       <FileName>Geometric Element\Element.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="MyProject.Classes.Relation" Collapsed="true">
-    <Position X="3.75" Y="7.5" Width="1.5" />
+    <Position X="3.5" Y="7.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAACAAAAAAAAABIAAAAAAAAAAA=</HashCode>
       <FileName>Geometric Element\Relation.cs</FileName>
@@ -76,26 +76,26 @@
   <Class Name="MyProject.Classes.Shape" Collapsed="true">
     <Position X="6" Y="2.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAEAAAABAAAABAAAEAQAABAEAAAAAEAAAABAAAA=</HashCode>
+      <HashCode>AAAAAAEABAABAAQABAAAEAQBABAEAAAAAEAAAABAAAA=</HashCode>
       <FileName>Geometric Element\Shape.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Interface Name="MyProject.Classes.IRelated" Collapsed="true">
-    <Position X="3.75" Y="6.5" Width="1.5" />
+    <Position X="3.5" Y="6.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Geometric Element\IRelated.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Enum Name="MyProject.Classes.DescriptionLine" Collapsed="true">
-    <Position X="1.25" Y="7.5" Width="1.5" />
+    <Position X="1" Y="7.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAQAABAAAAAAAABAAAAAAAACAAAA=</HashCode>
       <FileName>Geometric Element\DescriptionLine.cs</FileName>
     </TypeIdentifier>
   </Enum>
   <Enum Name="MyProject.Classes.DescriptionRib" Collapsed="true">
-    <Position X="1.25" Y="6.5" Width="1.5" />
+    <Position X="1" Y="6.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>EAAAAAAAAAAAAAAAAAAIBAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Geometric Element\DescriptionRib.cs</FileName>

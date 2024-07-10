@@ -18,6 +18,14 @@ namespace MyProject.Classes
         internal Rib Rib1 { get => rib1; set => rib1 = value; }
         internal Rib Rib2 { get => rib2; set => rib2 = value; }
 
-        public Angle() { }  
+        public Angle() 
+        {
+
+        }  
+        public void sortNameAngle()
+        {
+            if (nameAngle[0] > nameAngle[2])
+                nameAngle = nameAngle[2] + nameAngle[1] + nameAngle[0].ToString();
+        }
     }
 }
