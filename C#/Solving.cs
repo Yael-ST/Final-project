@@ -25,7 +25,7 @@ namespace MyProject
             GlobalVariable.callStack.Push(sentence);
 
             // זימון הפונקציה של המשפט הנוכחי
-            sentence.FunctionPointer.DynamicInvoke(sentence.GeometricElement, GlobalVariable.callStack);
+            sentence.FunctionPointer.DynamicInvoke(sentence.GeometricElement);
 
             // סריקה על כל תתי המשפטים
             for (int i = 0; i < sentence.myChildren.Count; i++)

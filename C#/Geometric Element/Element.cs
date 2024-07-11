@@ -2,11 +2,9 @@
 {
     internal class Element
     {
-        public List<Relation> ListAllRelations { get; set; }
-        public List<Relation> listAllParallel {  get; set; }
-        //public solving solving;
+       
         public Element()
-        {          
+        {
         }
 
         /// <summary>
@@ -15,12 +13,12 @@
         /// <returns></returns>
         public List<(IRelated, double)> GetMyRelations()
         {
-            var resultList = ListAllRelations.Where(p => p.obj2 == this ).Select(a => (a.obj1, a.relation)).ToList();
-            resultList.AddRange(ListAllRelations.Where(p => p.obj1 == this).Select(a => (a.obj2, 1 / a.relation)));
+            var resultList = GlobalVariable. ListAllRelations.Where(p => p.obj2 == this ).Select(a => (a.obj1, a.relation)).ToList();
+            resultList.AddRange(GlobalVariable. ListAllRelations.Where(p => p.obj1 == this).Select(a => (a.obj2, 1 / a.relation)));
             return resultList;
         }
         /// <summary>
-        /// בדיקת אם שני אלמנטים שווים
+        /// בדיקה האם שני אלמנטים שווים
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="element1"></param>
@@ -30,8 +28,25 @@
         {
             var thisRelation = (element1 as IRelated, 1);
             if (!element2.GetMyRelations().Contains(thisRelation!))        
-                return true;           
-            return false;
+                return false;           
+            return true;
+        }
+
+        /// <summary>
+        /// אם נמצא יחס חדש על אלמנט, מוסיפים אתו לכל האלמנטים שקשורים אליו
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="element"></param>
+        public void CompleteAllMyRelations() 
+        {
+            List<(IRelated, double)> myRelations = this.GetMyRelations();
+            foreach ((IRelated, double) item in myRelations)
+            {
+                if (this is Line)
+                    ((Line)item.Item1).LenLine = (this as Line)!.LenLine * item.Item2;
+                if (this is Angle)
+                    ((Angle)item.Item1).ValueAngle = (this as Angle)!.ValueAngle * item.Item2;
+            }
         }
         /// <summary>
         /// מחזירה רשימה של כל הקווים שמקבילים לאוביקט הנוכחי
@@ -39,8 +54,9 @@
         /// <returns></returns>
         public List<Relation> GetMyParallel()
         {
-            var resultList = listAllParallel.Where(p => p.obj1 == this||p.obj2==this).ToList();
+            var resultList = GlobalVariable. listAllParallel.Where(p => p.obj1 == this||p.obj2==this).ToList();
             return resultList;
         }
+
     }
 }

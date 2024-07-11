@@ -18,6 +18,8 @@ namespace MyProject
         public static List<Sentence> relevant_sentences=new List<Sentence>();
 
         public static Stack<Sentence> callStack=new Stack<Sentence>();
+        public static List<Relation> ListAllRelations =new List<Relation>();
+        public static List<Relation> listAllParallel =new List<Relation>();
 
     }
 }

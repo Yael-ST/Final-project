@@ -40,7 +40,7 @@ namespace MyProject.Classes
         }
         public void The_middle_for_yeter()
         {
-            LineInShape middle = this.MoreLines.First(p => p.DescriptionLine == DescriptionLine.middle);
+            LineInShape middle = this.MoreLines.FirstOrDefault(p => p.DescriptionLine == DescriptionLine.middle)!;
             if (middle != null)
             {
                 Rib yeter = this.Ribs.FirstOrDefault(p => p.DescriptionRib == DescriptionRib.yeter)!;
@@ -55,7 +55,7 @@ namespace MyProject.Classes
                             obj2 = yeter,
                             relation = 0.5
                         };
-                        this.ListAllRelations.Add(relation1);
+                        GlobalVariable.ListAllRelations.Add(relation1);
                     }
                 }
             }

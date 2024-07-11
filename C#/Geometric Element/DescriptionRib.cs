@@ -10,6 +10,8 @@ namespace MyProject.Classes
     {
         simple=0,
         yeter=1,
-        nichav=2
+        nichav=2,
+        shok1=3,
+        shok2=4,
     }
 }

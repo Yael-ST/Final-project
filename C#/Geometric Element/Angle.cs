@@ -24,8 +24,7 @@ namespace MyProject.Classes
         }  
         public void sortNameAngle()
         {
-            if (nameAngle[0] > nameAngle[2])
-                nameAngle = nameAngle[2] + nameAngle[1] + nameAngle[0].ToString();
+            nameAngle = nameAngle[0] > nameAngle[2] ? string.Concat(nameAngle[2], nameAngle[1], nameAngle[0]) : nameAngle;
         }
     }
 }

@@ -26,17 +26,17 @@ namespace MyProject.Classes
             if (!Ribs[0].GetMyRelations().Contains(thisRelation1))
             {
                 Relation relation1 = new Relation() { obj1 = Ribs[0], obj2 = Ribs[1], relation = 1 };
-                this.ListAllRelations.Add(relation1);
+                GlobalVariable.ListAllRelations.Add(relation1);
             }
             if (!Ribs[0].GetMyRelations().Contains(thisRelation2))
             {
                 Relation relation2 = new Relation() { obj1 = Ribs[0], obj2 = Ribs[2], relation = 1 };
-                this.ListAllRelations.Add(relation2);
+                GlobalVariable.ListAllRelations.Add(relation2);
             }
             if (!Ribs[1].GetMyRelations().Contains(thisRelation2))
             {
                 Relation relation2 = new Relation() { obj1 = Ribs[1], obj2 = Ribs[2], relation = 1 };
-                this.ListAllRelations.Add(relation2);
+                GlobalVariable.ListAllRelations.Add(relation2);
             }
         }
     }

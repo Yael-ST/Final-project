@@ -20,12 +20,16 @@ class Program
         TextAnalysis textAnalysis = new TextAnalysis();
         Solving solving = new Solving();
 
-        //string text_of_exercise = ocr.extract_text_from_img();
-         string text_of_exercise = "נתון משולש שווה שוקיים ABC . אורך התיכון AD לבסיס BC שווה 7. BC=5. חשב את היקף המשולש. ";
-        Console.WriteLine(text_of_exercise);
+       ///string text_of_exercise = ocr.extract_text_from_img();
+        #region .
+         string text_of_exercise = "נתון משולש שווה שוקיים ABC (AB=AC). אורך התיכון AD לבסיס BC שווה 7. CD=5. חשב את היקף המשולש. ";
+        #endregion
         textAnalysis.textOfExercise = text_of_exercise;
+
         textAnalysis.Scan_the_data();
+
         solving.Solver();
+        
     }
 }
 

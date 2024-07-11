@@ -22,7 +22,7 @@ namespace MyProject.Geometric_Element
         {
             LineInShape plump = this.MoreLines.First(p => p.DescriptionLine == DescriptionLine.plumb);
             if (plump != null)
-                return (plump.RibDest.LenLine?? 1 * plump.LenLine?? 1);
+                return (plump.RibDest.LenLine  * plump.LenLine);
             return 0;
         }
     }

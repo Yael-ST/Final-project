@@ -13,6 +13,7 @@ namespace MyProject.Classes
         private Angle[] angles;
         private List<Angle> moreAngles;
         private List<LineInShape> moreLines;
+        private double perimeter;
 
 
         internal Angle[] Angles { get => angles; set => angles = value; }
@@ -20,27 +21,17 @@ namespace MyProject.Classes
         public Rib[] Ribs { get => ribs; set => ribs = value; }
         public string Name { get => name; set => name = value; }
         internal List<LineInShape> MoreLines { get => moreLines; set => moreLines = value; }
+        public double Perimeter { get => perimeter; set => perimeter = value; }
 
         public Shape()
         {
+            moreLines= new List<LineInShape>();
         }
         public void sortNameShape()
         {
             this.name = new string(this.name.OrderBy(char.ToLower).ToArray());
 
         }
-        /// <summary>
-        /// מציאת היקף
-        /// </summary>
-        /// <returns></returns>
-        public double find_Perimeter()
-        {
-            double perimeter = 0;
-            foreach (Rib rib in this.Ribs)
-            {
-                perimeter += rib.LenLine??0;
-            }
-            return perimeter;
-        }
+       
     }
 }

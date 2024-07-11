@@ -12,6 +12,10 @@ using System.Reflection;
 using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp.ColorSpaces;
 using static IronPython.Modules._ast;
+using System.Collections.Specialized;
+using Microsoft.Scripting.Ast;
+using System.Reflection.Metadata;
+//using static IronOcr.OcrResult;
 
 
 namespace MyProject.Text_Of_Exercise
@@ -43,11 +47,15 @@ namespace MyProject.Text_Of_Exercise
         /// <summary>
         /// בונה את המילון של מילות המפתח
         /// </summary>
-        public void build_dictionary()
+        public void Build_dictionary()
         {
             WorkSheet key_words = Uploading_an_Excel_file();
-            key_words_dictionary.Add(key_words["A1"].ToString(), create_right_triangle);
             key_words_dictionary.Add(key_words["A2"].ToString(), Create_isosceles_triangle);
+
+            key_words_dictionary.Add(key_words["A17"].ToString(), Create_relation);
+
+            key_words_dictionary.Add(key_words["A10"].ToString(), Create_middle);
+            key_words_dictionary.Add(key_words["A1"].ToString(), create_right_triangle);
             key_words_dictionary.Add(key_words["A3"].ToString(), Create_equilateral_triangle);
             key_words_dictionary.Add(key_words["A4"].ToString(), Create_triangle);
             key_words_dictionary.Add(key_words["A5"].ToString(), Create_angle);
@@ -55,14 +63,12 @@ namespace MyProject.Text_Of_Exercise
             key_words_dictionary.Add(key_words["A7"].ToString(), Create_line);
             key_words_dictionary.Add(key_words["A8"].ToString(), Create_line);
             key_words_dictionary.Add(key_words["A9"].ToString(), Create_middle);
-            key_words_dictionary.Add(key_words["A10"].ToString(), Create_middle);
             key_words_dictionary.Add(key_words["A11"].ToString(), Create_plumb);
             key_words_dictionary.Add(key_words["A12"].ToString(), Create_bisects_angle);
             key_words_dictionary.Add(key_words["A13"].ToString(), Create_bisects_angle);
             key_words_dictionary.Add(key_words["A14"].ToString(), Create_rib);
             key_words_dictionary.Add(key_words["A15"].ToString(), Create_nichav);
             key_words_dictionary.Add(key_words["A16"].ToString(), Create_yeter);
-            key_words_dictionary.Add(key_words["A17"].ToString(), Create_relation);
             key_words_dictionary.Add(key_words["A18"].ToString(), Create_relation);
             Console.WriteLine("the key_words dictionary is built");
 
@@ -72,16 +78,16 @@ namespace MyProject.Text_Of_Exercise
         /// מחלקת את הטקסט למשפטים
         /// </summary>
         /// <returns></returns>
-        public string[] string_scan()
+        public string[] Dividing_the_text_into_sentences()
         {
-            string[] sentences = this.data.Split('.');
+            string[] sentences = this.data.Split(new char[] { ',', '.' });
             return sentences;
         }
 
         /// <summary>
         /// מחלקת את הטקסט לנתונים והוכחות
         /// </summary>
-        public void divides_the_text_into_facts_and_proofs()
+        public void Divides_the_text_into_facts_and_proofs()
         {
             #region a
             string pattern1 = @"\bא\.\b";
@@ -97,9 +103,9 @@ namespace MyProject.Text_Of_Exercise
                 {
                     string pattern = @"\b(הוכח|מצא|חשב)\b";
                     Regex regex = new Regex(pattern);
-                    MatchCollection matches2 = regex.Matches(this.textOfExercise);
-                    if (matches2.Count > 0)
-                        index = matches2[0].Index;
+                    Match match = regex.Match(this.textOfExercise);
+                    if (match.Success)
+                        index = match.Index;
                 }
                 if (index != -1)
                 {
@@ -117,23 +123,26 @@ namespace MyProject.Text_Of_Exercise
         /// </summary>
         public void Scan_the_data()
         {
-            build_dictionary();
-            divides_the_text_into_facts_and_proofs();
-            string[] sentences = string_scan();
-            
+            Build_dictionary();
+            Divides_the_text_into_facts_and_proofs();
+            string[] sentences = Dividing_the_text_into_sentences();
+
             for (int i = 0; i < sentences.Length; i++)
             {
-                Console.WriteLine(sentences[i]);
-                //מעבר על כל מילות המפתח
-                foreach (var word in this.key_words_dictionary)
+                if (sentences[i] != " ")
                 {
-                    string pattern = word.Key;
-                    create_element action = word.Value;
-                    Match match = Regex.Match(sentences[i], pattern);
-                    if (match.Success)
+                    Console.WriteLine(sentences[i]);
+                    //מעבר על כל מילות המפתח
+                    foreach (var word in this.key_words_dictionary)
                     {
-                        // אם נמצאה התאמה, הפעלת הפונקציה המתאימה
-                        action(sentences[i], match.Index);
+                        string pattern = word.Key;
+                        create_element action = word.Value;
+                        Match match = Regex.Match(sentences[i], pattern);
+                        if (match.Success)
+                        {
+                            // אם נמצאה התאמה, הפעלת הפונקציה המתאימה
+                            action(sentences[i], match.Index);
+                        }
                     }
                 }
             }
@@ -147,7 +156,7 @@ namespace MyProject.Text_Of_Exercise
         /// <returns></returns>
         public string GetNameOfShape(string sentence, Shape shape)
         {
-            int length = shape.Name.Length;
+            int length = shape is Triangle ? 3 : 4;
             Regex rg = new Regex($@"\b[A-Z]{{{length}}}\b");
             Match match = rg.Match(sentence);
             return match.Value;
@@ -203,7 +212,7 @@ namespace MyProject.Text_Of_Exercise
         {
             if (nameShape.Contains(nameLine[0]))
                 return nameLine[0];
-            return nameLine[1];
+            return ((char)nameLine[1]);
         }
 
         /// <summary>
@@ -231,11 +240,12 @@ namespace MyProject.Text_Of_Exercise
             {
                 string nameRib = "";
                 if (shape.Name[0] == vertexSource)
-                    nameRib = shape.Name[0].ToString() + shape.Name[0].ToString();
-                if (shape.Name[0] == vertexSource)
-                    nameRib = shape.Name[0].ToString() + shape.Name[0].ToString();
-                if (shape.Name[0] == vertexSource)
-                    nameRib = shape.Name[0].ToString() + shape.Name[0].ToString();
+                    nameRib = string.Concat(shape.Name[1].ToString(), shape.Name[2]);
+                if (shape.Name[1] == vertexSource)
+                    nameRib = string.Concat(shape.Name[0].ToString(), shape.Name[2]);
+                if (shape.Name[2] == vertexSource)
+                    nameRib = string.Concat(shape.Name[0].ToString(), shape.Name[1]);
+                nameRib = new string(nameRib.OrderBy(char.ToLower).ToArray());
                 return shape.Ribs.FirstOrDefault(x => x.NameLine == nameRib)!;
             }
             else
@@ -262,16 +272,28 @@ namespace MyProject.Text_Of_Exercise
         /// פרטי זווית של הצורה
         /// </summary>
         /// <param name="shape"></param>
-        public void SetAnglesOfShape(Shape shape)
+        public void SetAnglesOfShape(Shape shape, bool is_to_small_triangle)
         {
             int length = shape.Name.Length;
             for (int j = 0; j < length; j++)
             {
-                for (int i = 0; i <= 2; i++)
-                    shape.Ribs[j].NameLine += shape.Name[(i + length - 1) % length];
-                for (int i = 0; i <= 3; i++)
-                    shape.Angles[j].NameAngle += shape.Name[(i + length - 1) % length];
+                for (int i = 0; i < 3; i++)
+                    shape.Angles[j].NameAngle += shape.Name[(i + j) % length];
                 shape.Angles[j].sortNameAngle();
+                if (is_to_small_triangle)
+                {
+                    Angle aa = GlobalVariable.angles.FirstOrDefault(x => x.NameAngle == shape.Angles[j].NameAngle)!;
+                    if (aa != null)
+                    {
+                        shape.Ribs[j].LenLine = aa.ValueAngle;
+                        if (!Is_equal<Angle>(aa, shape.Angles[j]))
+                        {
+                            Relation relation1 = new Relation() { obj1 = aa, obj2 = shape.Ribs[j], relation = 1 };
+                            GlobalVariable.ListAllRelations.Add(relation1);
+                        }
+                    }
+                }
+                GlobalVariable.angles.Add(shape.Angles[j]);
             }
         }
 
@@ -279,20 +301,57 @@ namespace MyProject.Text_Of_Exercise
         /// פרטי צלעות של הצורה
         /// </summary>
         /// <param name="shape"></param>
-        public void SetRibsOfShape(Shape shape)
+        public void SetRibsOfShape(Shape shape, bool is_to_small_triangle)
         {
-            foreach (Rib rib in shape.Ribs)
-            {
-                rib.NameShape = shape.Name;
-                rib.DescriptionRib = DescriptionRib.simple;
-            }
-
             int length = shape.Name.Length;
             for (int j = 0; j < length; j++)
             {
-                for (int i = 0; i <= 2; i++)
-                    shape.Ribs[j].NameLine += shape.Name[(i + length - 1) % length];
+                for (int i = 1; i <= 2; i++)
+                    shape.Ribs[j].NameLine += shape.Name[(i + j) % length];
+                shape.Ribs[j].sortNameLine();
+                shape.Ribs[j].NameShape = shape.Name;
+                shape.Ribs[j].DescriptionRib = DescriptionRib.simple;
+                if (is_to_small_triangle)
+                {
+                    Line rr = GlobalVariable.lines.FirstOrDefault(x => x.NameLine == shape.Ribs[j].NameLine)!;
+                    if (rr != null)
+                    {
+                        shape.Ribs[j].LenLine = rr.LenLine;
+                        if (!Is_equal<Line>(rr, shape.Ribs[j]))
+                        {
+                            Relation relation1 = new Relation() { obj1 = rr, obj2 = shape.Ribs[j], relation = 1 };
+                            GlobalVariable.ListAllRelations.Add(relation1);
+                        }
+                        if (rr is not LineInShape && rr is not Rib)
+                        {
+                            GlobalVariable.lines.Remove(rr);
+                            GlobalVariable.lines.Add(shape.Ribs[j]);
+                        }
+                        else
+                            GlobalVariable.lines.Add(shape.Ribs[j]);
+                    }
+                }
+                else
+                    GlobalVariable.lines.Add(shape.Ribs[j]);
             }
+        }
+
+        /// <summary>
+        /// פרטי שוקיים של משו"ש
+        /// </summary>
+        /// <param name="t"></param>
+        /// <param name="sentence"></param>
+        public void SetShoksOfIsoscelesTriangle(IsoscelesTriangle t, string sentence)
+        {
+            Match matchShok1 = GetFirstElement(sentence);
+            string nameShok2 = GetSecondElement(sentence.Substring(matchShok1.Index + 2));
+            string nameShok1 = matchShok1.Value;
+            Rib shok1 = t.Ribs.FirstOrDefault(x => x.NameLine == nameShok1)!;
+            Rib shok2 = t.Ribs.FirstOrDefault(x => x.NameLine == nameShok2)!;
+            shok1.DescriptionRib = DescriptionRib.shok1;
+            shok2.DescriptionRib = DescriptionRib.shok2;
+
+
         }
 
         /// <summary>
@@ -301,21 +360,21 @@ namespace MyProject.Text_Of_Exercise
         /// <param name="t1"></param>
         public void SetRibsOfRightTri(RightTriangle t1)
         {
-            string nameNichav1 = t1.RightAngle.NameAngle[0].ToString() + t1.RightAngle.NameAngle[1].ToString();
-            string nameNichav2 = t1.RightAngle.NameAngle[1].ToString() + t1.RightAngle.NameAngle[2].ToString();
-            string nameYeter = t1.RightAngle.NameAngle[2].ToString() + t1.RightAngle.NameAngle[0].ToString();
+            string nameNichav1 = string.Concat(t1.RightAngle.NameAngle[0], t1.RightAngle.NameAngle[1]);
+            string nameNichav2 = string.Concat(t1.RightAngle.NameAngle[1], t1.RightAngle.NameAngle[2]);
+            string nameYeter = string.Concat(t1.RightAngle.NameAngle[2], t1.RightAngle.NameAngle[0]);
             t1.Ribs[0].NameLine = nameNichav1;
-            t1.Ribs[0].DescriptionRib = DescriptionRib.nichav;
-            t1.Ribs[0].NameShape = t1.Name;
-
             t1.Ribs[1].NameLine = nameNichav2;
-            t1.Ribs[1].DescriptionRib = DescriptionRib.nichav;
-            t1.Ribs[1].NameShape = t1.Name;
-
             t1.Ribs[2].NameLine = nameYeter;
-            t1.Ribs[2].DescriptionRib = DescriptionRib.yeter;
-            t1.Ribs[2].NameShape = t1.Name;
 
+            t1.Ribs[0].DescriptionRib = DescriptionRib.nichav;
+            t1.Ribs[1].DescriptionRib = DescriptionRib.nichav;
+            t1.Ribs[2].DescriptionRib = DescriptionRib.yeter;
+            foreach (Rib  rib in t1.Ribs)
+            {
+                rib.NameShape = t1.Name;
+                rib.sortNameLine();
+            }    
         }
 
         /// <summary>
@@ -342,12 +401,9 @@ namespace MyProject.Text_Of_Exercise
             {
                 t1.Name = nameTriangle;
                 t1.sortNameShape();
-                SetAnglesOfShape(t1);
-                SetRibsOfShape(t1);
+                SetAnglesOfShape(t1, false);
+                SetRibsOfShape(t1, false);
                 GlobalVariable.shapes.Add(t1);
-
-                #region הוספת המשפטים הרלוונטים לרשימת המשפטים
-                #endregion
             }
         }
 
@@ -365,15 +421,18 @@ namespace MyProject.Text_Of_Exercise
             {
                 t1.Name = nameTriangle;
                 t1.sortNameShape();
-                SetAnglesOfShape(t1);
-                SetRibsOfShape(t1);
+                SetAnglesOfShape(t1, false);
+                SetRibsOfShape(t1, false);
+                SetShoksOfIsoscelesTriangle(t1, sentence.Substring(index + 22));
                 t1.Set_attributes_of_the_isosceles_triangle();
                 GlobalVariable.shapes.Add(t1);
                 Console.WriteLine("the IsoscelesTriangle is built");
 
                 #region הוספת משפטים רלוונטים לעץ
-                Sentence s1 = Create_sentence_Lines_in_triangle_is_converge(triangle!);
-                GlobalVariable.relevant_sentences.Add(s1);               
+                Sentence s1 = Create_sentence_Lines_in_IsoscelesTriangle_is_converge(t1!);
+                Sentence ss = GlobalVariable.relevant_sentences.FirstOrDefault(x => x.Id == s1.Id && x.GeometricElement == s1.GeometricElement)!;
+                if (ss == null)
+                    GlobalVariable.relevant_sentences.Add(s1);
                 #endregion
             }
         }
@@ -392,8 +451,8 @@ namespace MyProject.Text_Of_Exercise
             {
                 t1.Name = nameTriangle;
                 t1.sortNameShape();
-                SetAnglesOfShape(t1);
-                SetRibsOfShape(t1);
+                SetAnglesOfShape(t1, false);
+                SetRibsOfShape(t1, false);
                 t1.Set_attributes_of_the_Equilateral_Triangle();
                 GlobalVariable.shapes.Add(t1);
 
@@ -414,24 +473,25 @@ namespace MyProject.Text_Of_Exercise
             {
                 t1.Name = nameTriangle;
                 t1.sortNameShape();
-                SetAnglesOfShape(t1);
+                SetAnglesOfShape(t1, false);
                 string subSentence = sentence.Substring(index);
                 t1.RightAngle.NameAngle = GetNameOfAngle(subSentence);
                 SetRibsOfRightTri(t1);
                 t1.Set_attributes_of_the_Right_triangle();
                 GlobalVariable.shapes.Add(t1);
+                Console.WriteLine("RightTriangle");
 
                 #region הוספת משפטים רלונטיים למילון
                 Sentence s1 = Create_sentence_Pythagorean_Theorem(triangle!);
-                GlobalVariable.relevant_sentences.Add(s1);
-                Sentence s2 = Create_sentence_The_middle_for_yeter(triangle!);
-                GlobalVariable.relevant_sentences.Add(s2);
+                Sentence ss = GlobalVariable.relevant_sentences.FirstOrDefault(x => x.Id == s1.Id && x.GeometricElement == s1.GeometricElement)!;
+                if (ss == null)
+                    GlobalVariable.relevant_sentences.Add(s1); Sentence s2 = Create_sentence_The_middle_for_yeter(triangle!);
+                ss = GlobalVariable.relevant_sentences.FirstOrDefault(x => x.Id == s2.Id && x.GeometricElement == s2.GeometricElement)!;
+                if (ss == null)
+                    GlobalVariable.relevant_sentences.Add(s2);
                 Sentence s3 = Create_sentence_A_nice_triangle(triangle!);
                 GlobalVariable.relevant_sentences.Add(s3);
                 #endregion
-
-                Console.WriteLine("RightTriangle");
-
             }
         }
 
@@ -483,7 +543,7 @@ namespace MyProject.Text_Of_Exercise
                 smallRightTriangle1.Name = nameSmallTriangle1;
                 smallRightTriangle1.sortNameShape();
                 SetRibsOfRightTri(smallRightTriangle1);
-                SetAnglesOfShape(smallRightTriangle1);
+                SetAnglesOfShape(smallRightTriangle1, true);
                 smallRightTriangle1.RightAngle.NameAngle = r1.NameLine[0] + l.CutPoint + r1.NameLine[1].ToString();
                 smallRightTriangle1.RightAngle.sortNameAngle();
                 smallRightTriangle1.RightAngle.ValueAngle = 90;
@@ -494,7 +554,7 @@ namespace MyProject.Text_Of_Exercise
                 smallRightTriangle2.Name = nameSmallTriangle2;
                 smallRightTriangle2.sortNameShape();
                 SetRibsOfRightTri(smallRightTriangle2);
-                SetAnglesOfShape(smallRightTriangle2);
+                SetAnglesOfShape(smallRightTriangle2, true);
                 smallRightTriangle2.RightAngle.NameAngle = r2.NameLine[0] + l.CutPoint + r2.NameLine[1].ToString();
                 smallRightTriangle2.RightAngle.sortNameAngle();
                 smallRightTriangle2.RightAngle.ValueAngle = 90;
@@ -508,18 +568,18 @@ namespace MyProject.Text_Of_Exercise
                     Triangle smallTriangle1 = new Triangle();
                     smallTriangle1.Name = nameSmallTriangle1;
                     smallTriangle1.sortNameShape();
-                    SetAnglesOfShape(smallTriangle1);
-                    SetRibsOfShape(smallTriangle1);
+                    SetAnglesOfShape(smallTriangle1, true);
+                    SetRibsOfShape(smallTriangle1, true);
                     GlobalVariable.shapes.Add(smallTriangle1);
                 }
 
                 if (triangle2 == null)
                 {
                     Triangle smallTriangle2 = new Triangle();
-                    smallTriangle2.Name = nameSmallTriangle1;
+                    smallTriangle2.Name = nameSmallTriangle2;
                     smallTriangle2.sortNameShape();
-                    SetAnglesOfShape(smallTriangle2);
-                    SetRibsOfShape(smallTriangle2);
+                    SetAnglesOfShape(smallTriangle2, true);
+                    SetRibsOfShape(smallTriangle2, true);
                     GlobalVariable.shapes.Add(smallTriangle2);
                 }
             }
@@ -544,28 +604,29 @@ namespace MyProject.Text_Of_Exercise
         /// <param name="index"></param>
         public void Create_middle(string sentence, int index)
         {
-            Triangle tri=new Triangle();
-            if (sentence != "")
+            Triangle tri = new Triangle();
+            string nameLine = GetNameOfRibOrLine(sentence);
+            Line? line = GlobalVariable.lines.FirstOrDefault(x => x.NameLine == nameLine);
+            if (line == null)
             {
-                string nameLine = GetNameOfRibOrLine(sentence);
-                Line? line = GlobalVariable.lines.FirstOrDefault(x => x.NameLine == nameLine);
-                if (line == null)
-                {
-                    LineInShape l = new LineInShape();
-                    l.NameLine = nameLine;
-                    l.DescriptionLine = DescriptionLine.middle;
-                    l.NameShape = GetNameShapeOfRibOrLine(l.NameLine);
-                    l.VertexSource = GetVertexSource(l.NameLine, l.NameShape);
-                    l.CutPoint = GetCutPoint(l.NameLine, l.VertexSource);
+                LineInShape l = new LineInShape();
+                l.NameLine = nameLine;
+                l.DescriptionLine = DescriptionLine.middle;
+                l.NameShape = GetNameShapeOfRibOrLine(l.NameLine);
+                l.VertexSource = GetVertexSource(l.NameLine, l.NameShape);
+                l.CutPoint = GetCutPoint(l.NameLine, l.VertexSource);
 
-                    tri = GlobalVariable.shapes.OfType<Triangle>().FirstOrDefault(t => t.Name == l.NameShape)!;
-                    l.RibDest = GetRibDest(l.VertexSource, tri!, sentence);
+                tri = GlobalVariable.shapes.OfType<Triangle>().FirstOrDefault(t => t.Name == l.NameShape)!;
+                l.RibDest = GetRibDest(l.VertexSource, tri!, sentence);
+                l.NameAngleSource = GetNameAngleSource(tri, l.VertexSource);
 
-                    tri!.MoreLines.Add(l);
-                    GlobalVariable.lines.Add(l);
-                    Create_2_lines(l);
-                    Create_2_small_tris(l, tri);
-                }
+                tri!.MoreLines.Add(l);
+                GlobalVariable.lines.Add(l);
+                Create_2_lines(l);
+                Create_2_small_tris(l, tri);
+            }
+            else
+            {
                 if (((LineInShape)line!).DescriptionLine == DescriptionLine.plumb)
                 {
                     ((LineInShape)line).DescriptionLine = DescriptionLine.plumb | DescriptionLine.middle;
@@ -575,22 +636,29 @@ namespace MyProject.Text_Of_Exercise
                 {
                     ((LineInShape)line).DescriptionLine = DescriptionLine.bisectsAngle | DescriptionLine.middle;
                     tri = GlobalVariable.shapes.OfType<Triangle>().FirstOrDefault(t => t.Name == line.NameShape)!;
-
                 }
-                #region הוספת משפטים רלוונטים לעץ
-                Sentence s1 = Create_sentence_if_middle_and_bisectsAngle_is_converge(tri);
-                GlobalVariable.relevant_sentences.Add(s1);
-                Sentence s2 = Create_sentence_if_middle_and_plumb_is_converge(tri);
-                GlobalVariable.relevant_sentences.Add(s2);
-                Sentence s3 = Create_sentence_Lines_in_triangle_is_converge(tri);
-                GlobalVariable.relevant_sentences.Add(s3);
-                Sentence s4 = Create_sentence_The_middle_for_yeter(tri);
-                GlobalVariable.relevant_sentences.Add(s4);
-                #endregion
-
-                Console.WriteLine("middle is built");
-
             }
+
+            #region הוספת משפטים רלוונטים לעץ
+            Sentence s1 = Create_sentence_if_middle_and_bisectsAngle_is_converge(tri);
+            Sentence ss = GlobalVariable.relevant_sentences.FirstOrDefault(x => x.Id == s1.Id && x.GeometricElement == s1.GeometricElement)!;
+            if (ss == null)
+                GlobalVariable.relevant_sentences.Add(s1);
+            Sentence s2 = Create_sentence_if_middle_and_plumb_is_converge(tri);
+            ss = GlobalVariable.relevant_sentences.FirstOrDefault(x => x.Id == s2.Id && x.GeometricElement == s2.GeometricElement)!;
+            if (ss == null)
+                GlobalVariable.relevant_sentences.Add(s2);
+            Sentence s3 = Create_sentence_Lines_in_IsoscelesTriangle_is_converge(tri);
+            ss = GlobalVariable.relevant_sentences.FirstOrDefault(x => x.Id == s3.Id && x.GeometricElement == s3.GeometricElement)!;
+            if (ss == null)
+                GlobalVariable.relevant_sentences.Add(s3);
+            Sentence s4 = Create_sentence_The_middle_for_yeter(tri);
+            ss = GlobalVariable.relevant_sentences.FirstOrDefault(x => x.Id == s4.Id && x.GeometricElement == s4.GeometricElement)!;
+            if (ss == null)
+                GlobalVariable.relevant_sentences.Add(s4);
+            #endregion
+
+            Console.WriteLine("middle is built");
         }
 
         /// <summary>
@@ -599,40 +667,30 @@ namespace MyProject.Text_Of_Exercise
         /// <param name="l"></param>
         public void Create_2_lines(LineInShape l)
         {
-            int indexOfOtherVertex1 = 0, indexOfOtherVertex2 = 0;
-            for (int i = 1; i <= 3; i++)
-            {
-                if (l.VertexSource == l.NameShape[i])
-                    if (indexOfOtherVertex1 != 0)
-                        indexOfOtherVertex1 = i;
-                    else
-                        indexOfOtherVertex2 = i;
-            }
+            char vertex1 = l.NameShape.FirstOrDefault(x => x != l.VertexSource)!;
+            char vertex2 = l.NameShape.LastOrDefault(x => x != l.VertexSource)!;
             Line l1 = new Line();
-            l1.NameLine = l.CutPoint.ToString() + indexOfOtherVertex1;
+            l1.NameLine = string.Concat(l.CutPoint, vertex1);
+            l1.sortNameLine();
             l1.NameShape = l.NameShape;
             GlobalVariable.lines.Add(l1);
 
             Line l2 = new Line();
-            l2.NameLine = l.CutPoint.ToString() + indexOfOtherVertex2;
+            l2.NameLine = string.Concat(l.CutPoint, vertex2);
+            l2.sortNameLine();
             l2.NameShape = l.NameShape;
             GlobalVariable.lines.Add(l2);
             //אם הישר הוא תיכון אז הקטעים החדשים שנוצרו שווים
-            if(l.DescriptionLine==DescriptionLine.middle)
+            if (l.DescriptionLine == DescriptionLine.middle)
             {
                 if (!Is_equal<Line>(l1, l2))
                 {
                     Relation relation1 = new Relation() { obj1 = l1, obj2 = l2, relation = 1 };
-                    this.ListAllRelations.Add(relation1);
-                    if (l.RibDest.LenLine != 0)
-                    {
-                        l1.LenLine = l.LenLine * 0.5;
-                        l2.LenLine= l.LenLine * 0.5;
-                    }
-   
+                    GlobalVariable.ListAllRelations.Add(relation1);
+                    l1.LenLine = l.LenLine * 0.5;
+                    l2.LenLine = l.LenLine * 0.5;
                 }
             }
-            
         }
 
         /// <summary>
@@ -669,14 +727,21 @@ namespace MyProject.Text_Of_Exercise
                 ((LineInShape)l1).DescriptionLine = DescriptionLine.bisectsAngle | DescriptionLine.middle;
             }
 
+            #region הוספת משפטים רלוונטים לעץ
             Sentence s1 = Create_sentence_if_middle_and_plumb_is_converge(shape);
-            GlobalVariable.relevant_sentences.Add(s1);
-            Sentence s2 = Create_sentence_Lines_in_triangle_is_converge(shape);
-            GlobalVariable.relevant_sentences.Add(s2);
+            Sentence ss = GlobalVariable.relevant_sentences.FirstOrDefault(x => x.Id == s1.Id && x.GeometricElement == s1.GeometricElement)!;
+            if (ss == null)
+                GlobalVariable.relevant_sentences.Add(s1);
+            Sentence s2 = Create_sentence_Lines_in_IsoscelesTriangle_is_converge(shape);
+            ss = GlobalVariable.relevant_sentences.FirstOrDefault(x => x.Id == s2.Id && x.GeometricElement == s2.GeometricElement)!;
+            if (ss == null)
+                GlobalVariable.relevant_sentences.Add(s2);
             Sentence s3 = Create_sentence_if_bisectsAngle_and_plumb_is_converge(shape);
-            GlobalVariable.relevant_sentences.Add(s3);
+            ss = GlobalVariable.relevant_sentences.FirstOrDefault(x => x.Id == s3.Id && x.GeometricElement == s3.GeometricElement)!;
+            if (ss == null)
+                GlobalVariable.relevant_sentences.Add(s3);
             Console.WriteLine("plumb is built");
-
+            #endregion
         }
 
         /// <summary>
@@ -715,29 +780,34 @@ namespace MyProject.Text_Of_Exercise
             if (!Is_equal<Angle>(a1, a2))
             {
                 Relation relation1 = new Relation() { obj1 = a1, obj2 = a2, relation = 1 };
-                this.ListAllRelations.Add(relation1);
+                GlobalVariable.ListAllRelations.Add(relation1);
                 Angle angleSource = shape.Angles.FirstOrDefault(x => x.NameAngle == l1.NameAngleSource)!;
                 if (angleSource.ValueAngle != 0)
                 {
-                    a1.ValueAngle = angleSource.ValueAngle*0.5;
-                    a2.ValueAngle = angleSource.ValueAngle*0.5;
+                    a1.ValueAngle = angleSource.ValueAngle * 0.5;
+                    a2.ValueAngle = angleSource.ValueAngle * 0.5;
                 }
-
             }
             if (shape is Triangle)
             {
                 Create_2_small_tris(l1, (Triangle)shape);
             }
             Create_2_lines(l1);
+            Console.WriteLine("bisectsAngle is built");
             #region הוספת המשפטים הרלוונטים למילון
             Sentence s1 = Create_sentence_if_middle_and_bisectsAngle_is_converge(shape);
-            GlobalVariable.relevant_sentences.Add(s1);
-            Sentence s2 = Create_sentence_Lines_in_triangle_is_converge(shape);
-            GlobalVariable.relevant_sentences.Add(s2);
+            Sentence ss = GlobalVariable.relevant_sentences.FirstOrDefault(x => x.Id == s1.Id && x.GeometricElement == s1.GeometricElement)!;
+            if (ss == null)
+                GlobalVariable.relevant_sentences.Add(s1);
+            Sentence s2 = Create_sentence_Lines_in_IsoscelesTriangle_is_converge(shape);
+            ss = GlobalVariable.relevant_sentences.FirstOrDefault(x => x.Id == s2.Id && x.GeometricElement == s2.GeometricElement)!;
+            if (ss == null)
+                GlobalVariable.relevant_sentences.Add(s2);
             Sentence s3 = Create_sentence_if_bisectsAngle_and_plumb_is_converge(shape);
-            GlobalVariable.relevant_sentences.Add(s3);
+            ss = GlobalVariable.relevant_sentences.FirstOrDefault(x => x.Id == s3.Id && x.GeometricElement == s3.GeometricElement)!;
+            if (ss == null)
+                GlobalVariable.relevant_sentences.Add(s3);
             #endregion
-            Console.WriteLine("bisectsAngle is built");
 
         }
 
@@ -783,59 +853,214 @@ namespace MyProject.Text_Of_Exercise
             GlobalVariable.lines.Add(r1);
         }
 
-       
-
-
         public void Create_relation(string sentence, int index)
         {
-            string FirstElement = GetFirstElement(sentence);
-            string secondElement = GetSecondElement(sentence, index);
+            if (!Create_relation_with_one_element(sentence))
+            {
+                Create_relation_with_two_element(sentence, index);
+            }
+        }
+        public bool Create_relation_with_one_element(string sentence)
+        {
+            int num = GetNumber(sentence);
+            if (num == 0) return false;
+            Match element = GetFirstElement(sentence);
+            if (element.Value.Length == 2)
+            {
+                Line line = GlobalVariable.lines.FirstOrDefault(x => x.NameLine == element.Value)!;
+                line.LenLine = num;
+                line.CompleteAllMyRelations();
+                #region
+                string nameShape = line.NameShape;
+                Triangle t1 = GlobalVariable.shapes.OfType<Triangle>().FirstOrDefault(x => x.Name == nameShape)!;
+                //1
+                Sentence s1 = Create_sentence_find_Perimeter(t1);
+                Sentence ss = GlobalVariable.relevant_sentences.FirstOrDefault(x => x.Id == s1.Id && x.GeometricElement == s1.GeometricElement)!;
+                if (ss == null)
+                    GlobalVariable.relevant_sentences.Add(s1);
+                //2
+                Sentence s2 = Create_sentence_A_nice_triangle__reverse_sentence(t1);
+                ss = GlobalVariable.relevant_sentences.FirstOrDefault(x => x.Id == s2.Id && x.GeometricElement == s2.GeometricElement)!;
+                if (ss == null)
+                    GlobalVariable.relevant_sentences.Add(s2);
+                #endregion
+            }
+            if (element.Value.Length == 3)
+            {
+                Angle angle = GlobalVariable.angles.FirstOrDefault(x => x.NameAngle == element.Value)!;
+                angle.ValueAngle = num;
+                angle.CompleteAllMyRelations();
+                #region הוספת משפטים רלוונטים לעץ
+                string nameShape = new string(angle.NameAngle.OrderBy(char.ToLower).ToArray());
+                Triangle t1 = GlobalVariable.shapes.OfType<Triangle>().FirstOrDefault(x => x.Name == nameShape)!;
+                //1
+                Sentence s1 = Create_sentence_If_triangle_is_IsoscelesTriangle_and_oneOfThEAngles_equal_to_60(t1);
+                Sentence ss = GlobalVariable.relevant_sentences.FirstOrDefault(x => x.Id == s1.Id && x.GeometricElement == s1.GeometricElement)!;
+                if (ss == null)
+                    GlobalVariable.relevant_sentences.Add(s1);
+                //2
+                Sentence s2 = Create_sentence_Completing_Angles(t1);
+                ss = GlobalVariable.relevant_sentences.FirstOrDefault(x => x.Id == s2.Id && x.GeometricElement == s2.GeometricElement)!;
+                if (ss == null)
+                    GlobalVariable.relevant_sentences.Add(s2);
+                //3
+                Sentence s3 = Create_sentence_If_2_of_angles_equal_to60(t1);
+                ss = GlobalVariable.relevant_sentences.FirstOrDefault(x => x.Id == s3.Id && x.GeometricElement == s3.GeometricElement)!;
+                if (ss == null)
+                    GlobalVariable.relevant_sentences.Add(s3);
+                //4
+                Sentence s4 = Create_sentence_If_2_of_angles_equal_to60(t1);
+                ss = GlobalVariable.relevant_sentences.FirstOrDefault(x => x.Id == s4.Id && x.GeometricElement == s4.GeometricElement)!;
+                if (ss == null)
+                    GlobalVariable.relevant_sentences.Add(s4);
+
+                #endregion
+            }
+            return true;
+        }
+
+        public void Create_relation_with_two_element(string sentence, int index)
+        {
+            int indexSograim = sentence.IndexOf("(");
+            sentence = indexSograim != -1 ? sentence.Substring(indexSograim) : sentence;
+            Match FirstElement = GetFirstElement(sentence);
+            string secondElement = GetSecondElement(sentence.Substring(FirstElement.Index + 2));
             //במקרה שזה צלע או ישר
             if (FirstElement.Length == 2)
             {
-                Line? l1 = GlobalVariable.lines.FirstOrDefault(x => x.NameLine == FirstElement)!;
+                Line? l1 = GlobalVariable.lines.FirstOrDefault(x => x.NameLine == FirstElement.Value)!;
                 Line? l2 = GlobalVariable.lines.FirstOrDefault(x => x.NameLine == secondElement)!;
                 if (!Is_equal<Line>(l1!, l2!))
                 {
                     Relation relation1 = new Relation() { obj1 = l1!, obj2 = l2!, relation = 1 };
-                    this.ListAllRelations.Add(relation1);
-                    if (l1.LenLine == 0)
-                        l1.LenLine = l2.LenLine;
-                    if (l2.LenLine == 0)
-                        l2.LenLine = l1.LenLine;
+                    GlobalVariable.ListAllRelations.Add(relation1);
+                    l1.LenLine = l1.LenLine == 0 ? l2.LenLine : l1.LenLine;
+                    l2.LenLine = l2.LenLine == 0 ? l1.LenLine : l2.LenLine;
                 }
+                #region הוספת משפטים רלוונטים לעץ
+                //משפטים עבור הישר הראשון
+                Triangle t1 = GlobalVariable.shapes.OfType<Triangle>().FirstOrDefault(x => x.Name == l1.NameShape)!;
+                //1
+                Sentence s1 = Create_sentence_find_Perimeter(t1);
+                Sentence ss = GlobalVariable.relevant_sentences.FirstOrDefault(x => x.Id == s1.Id && x.GeometricElement == s1.GeometricElement)!;
+                if (ss == null)
+                    GlobalVariable.relevant_sentences.Add(s1);
+                //2
+                Sentence s2 = Create_sentence_Shoks_is_equal(t1);
+                ss = GlobalVariable.relevant_sentences.FirstOrDefault(x => x.Id == s2.Id && x.GeometricElement == s2.GeometricElement)!;
+                if (ss == null)
+                    GlobalVariable.relevant_sentences.Add(s2);
+                //3
+                Sentence s3 = Create_sentence_Pythagorean_Theorem(t1);
+                ss = GlobalVariable.relevant_sentences.FirstOrDefault(x => x.Id == s3.Id && x.GeometricElement == s3.GeometricElement)!;
+                if (ss == null)
+                    GlobalVariable.relevant_sentences.Add(s3);
+
+                //משפטים עבור הישר השני
+                Triangle t2 = GlobalVariable.shapes.OfType<Triangle>().FirstOrDefault(x => x.Name == l2.NameShape)!;
+                //1
+                Sentence s11 = Create_sentence_find_Perimeter(t1);
+                ss = GlobalVariable.relevant_sentences.FirstOrDefault(x => x.Id == s11.Id && x.GeometricElement == s11.GeometricElement)!;
+                if (ss == null)
+                    GlobalVariable.relevant_sentences.Add(s11);
+                //2
+                Sentence s22 = Create_sentence_Shoks_is_equal(t1);
+                ss = GlobalVariable.relevant_sentences.FirstOrDefault(x => x.Id == s22.Id && x.GeometricElement == s22.GeometricElement)!;
+                if (ss == null)
+                    GlobalVariable.relevant_sentences.Add(s22);
+                //3
+                Sentence s33 = Create_sentence_Pythagorean_Theorem(t1);
+                ss = GlobalVariable.relevant_sentences.FirstOrDefault(x => x.Id == s33.Id && x.GeometricElement == s33.GeometricElement)!;
+                if (ss == null)
+                    GlobalVariable.relevant_sentences.Add(s33);
+                #endregion
             }
 
             //במקרה שזה זווית
             if (FirstElement.Length == 3)
             {
-                Angle? a1 = GlobalVariable.angles.FirstOrDefault(x => x.NameAngle == FirstElement)!;
+                Angle? a1 = GlobalVariable.angles.FirstOrDefault(x => x.NameAngle == FirstElement.Value)!;
                 Angle? a2 = GlobalVariable.angles.FirstOrDefault(x => x.NameAngle == secondElement)!;
                 if (!Is_equal<Angle>(a1!, a2!))
                 {
                     Relation relation1 = new Relation() { obj1 = a1!, obj2 = a2!, relation = 1 };
-                    this.ListAllRelations.Add(relation1);
-                    if (a1.ValueAngle == 0)
-                        a1.ValueAngle = a2.ValueAngle;
-                    if (a2.ValueAngle == 0)
-                        a2.ValueAngle = a1.ValueAngle;
+                    GlobalVariable.ListAllRelations.Add(relation1);
+                    a1.ValueAngle = a1.ValueAngle == 0 ? a2.ValueAngle : a1.ValueAngle;
+                    a2.ValueAngle = a2.ValueAngle == 0 ? a1.ValueAngle : a2.ValueAngle;
                 }
+
+                #region הוספת משפטים רלוונטים לעץ
+                //משפטים עבור הזווית הראשונה
+                string nameShape = new string(a1.NameAngle.OrderBy(char.ToLower).ToArray());
+                Triangle t1 = GlobalVariable.shapes.OfType<Triangle>().FirstOrDefault(x => x.Name == nameShape)!;
+                //1
+                Sentence s1 = Create_sentence_Completing_Angles(t1);
+                Sentence ss = GlobalVariable.relevant_sentences.FirstOrDefault(x => x.Id == s1.Id && x.GeometricElement == s1.GeometricElement)!;
+                if (ss == null)
+                    GlobalVariable.relevant_sentences.Add(s1);
+                //2
+                Sentence s2 = Create_sentence_Basic_angles_is_equal(t1);
+                ss = GlobalVariable.relevant_sentences.FirstOrDefault(x => x.Id == s2.Id && x.GeometricElement == s2.GeometricElement)!;
+                if (ss == null)
+                    GlobalVariable.relevant_sentences.Add(s2);
+                //3
+                Sentence s3 = Create_sentence_If_2_of_angles_equal_to60(t1);
+                ss = GlobalVariable.relevant_sentences.FirstOrDefault(x => x.Id == s3.Id && x.GeometricElement == s3.GeometricElement)!;
+                if (ss == null)
+                    GlobalVariable.relevant_sentences.Add(s3);
+                //4
+                Sentence s4 = Create_sentence_If_triangle_is_IsoscelesTriangle_and_oneOfThEAngles_equal_to_60(t1);
+                ss = GlobalVariable.relevant_sentences.FirstOrDefault(x => x.Id == s4.Id && x.GeometricElement == s4.GeometricElement)!;
+                if (ss == null)
+                    GlobalVariable.relevant_sentences.Add(s4);
+
+                //משפטים עבור הזווית השנייה
+                string nameShape2 = new string(a2.NameAngle.OrderBy(char.ToLower).ToArray());
+                Triangle t2 = GlobalVariable.shapes.OfType<Triangle>().FirstOrDefault(x => x.Name == nameShape2)!;
+                //1
+                Sentence s11 = Create_sentence_Completing_Angles(t1);
+                ss = GlobalVariable.relevant_sentences.FirstOrDefault(x => x.Id == s11.Id && x.GeometricElement == s11.GeometricElement)!;
+                if (ss == null)
+                    GlobalVariable.relevant_sentences.Add(s11);
+                //2
+                Sentence s22 = Create_sentence_Basic_angles_is_equal(t1);
+                ss = GlobalVariable.relevant_sentences.FirstOrDefault(x => x.Id == s22.Id && x.GeometricElement == s22.GeometricElement)!;
+                if (ss == null)
+                    GlobalVariable.relevant_sentences.Add(s22);
+                //3
+                Sentence s33 = Create_sentence_If_2_of_angles_equal_to60(t1);
+                ss = GlobalVariable.relevant_sentences.FirstOrDefault(x => x.Id == s33.Id && x.GeometricElement == s33.GeometricElement)!;
+                if (ss == null)
+                    GlobalVariable.relevant_sentences.Add(s33);
+                //4
+                Sentence s44 = Create_sentence_If_triangle_is_IsoscelesTriangle_and_oneOfThEAngles_equal_to_60(t1);
+                ss = GlobalVariable.relevant_sentences.FirstOrDefault(x => x.Id == s44.Id && x.GeometricElement == s44.GeometricElement)!;
+                if (ss == null)
+                    GlobalVariable.relevant_sentences.Add(s44);
+                #endregion
             }
         }
 
-        public string GetSecondElement(string sentence, int index)
-        {
-            Regex rg = new Regex(@"[A-Z]{2,3}");
-            string substring = sentence.Substring(index);
-            Match match = rg.Match(substring);
-            return match.Value;
-        }
-
-        public string GetFirstElement(string sentence)
+        public string GetSecondElement(string sentence)
         {
             Regex rg = new Regex(@"[A-Z]{2,3}");
             Match match = rg.Match(sentence);
             return match.Value;
+        }
+
+        public Match GetFirstElement(string sentence)
+        {
+            Regex rg = new Regex(@"[A-Z]{2,3}");
+            Match match = rg.Match(sentence);
+            return match;
+        }
+
+        public int GetNumber(string sentence)
+        {
+            string pattern = @"\d+";
+            Regex regex = new Regex(pattern);
+            Match match = regex.Match(sentence);
+            return match.Success ? Convert.ToInt32(match.Value) : 0;
         }
     }
 }

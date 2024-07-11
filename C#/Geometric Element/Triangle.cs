@@ -14,6 +14,13 @@ namespace MyProject.Classes
         {
             this.Ribs = new Rib[3];
             this.Angles = new Angle[3];
+
+            for (int i = 0; i < 3; i++)
+            {
+                Ribs[i] = new Rib();
+                Angles[i] = new Angle();
+            }
+
         }
 
 
@@ -25,7 +32,7 @@ namespace MyProject.Classes
         {
             LineInShape? plump = this.MoreLines.FirstOrDefault(p => p.DescriptionLine == DescriptionLine.plumb);
             if (plump != null)
-                return (plump.RibDest.LenLine ?? 1 * plump.LenLine ?? 1) / 2;
+                return (plump.RibDest.LenLine * plump.LenLine ) / 2;
             return 0;
         }
 
