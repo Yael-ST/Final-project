@@ -6,6 +6,8 @@ function UploadingPicture() {
   const [selectedImage, setSelectedImage] = useState(null);
   const [showCamera, setShowCamera] = useState(false);
   const [showControls, setShowControls] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [showSolutionButton, setShowSolutionButton] = useState(false);
   const webcamRef = useRef(null);
 
   const handleImageUpload = (event) => {
@@ -45,15 +47,22 @@ function UploadingPicture() {
   const cancelSelection = () => {
     setSelectedImage(null);
   };
+
   const sendToServer = () => {
-    // ושליחה של המשתנה selectedImageshow resultניווט לקומפוננטה ש
+    setLoading(true);
+    // Your API call logic here
+    setTimeout(() => {
+      setLoading(false);
+      setShowSolutionButton(true);
+      alert('Image sent to the server!');
+    }, 2000); // Simulate a delay for API call
   };
 
   return (
     <div className="UploadingPicture">
       <div className="imageContainer">
-      <img src="logo2.png" alt="הלוגו של האתר" className="logoImage" />
-        <img src="./board2.jpg"  className="image" />
+        <img src="logo2.png" alt="הלוגו של האתר" className="logoImage" />
+        <img src="./board2.jpg" className="image" />
         <div className="captionContainer">
           <h2 className="captionText">!שלום לכם</h2>
           <h1 className="captionText">בואו לאהוב גאומטריה</h1>
@@ -75,11 +84,18 @@ function UploadingPicture() {
         <div className="selectedImage3">
           <img src={selectedImage} alt="Selected Image" className="SelectedImage2" />
           <div>
-          <button onClick={cancelSelection}>ביטול</button>
-          <button className="uploadButton" onClick={sendToServer} >שלח</button>
-
+            {!loading && !showSolutionButton && (
+              <>
+                <button onClick={cancelSelection}>ביטול</button>
+                <button className="uploadButton" onClick={sendToServer}>שלח</button>
+              </>
+            )}
+            {loading && <div className="loading">Loading...</div>}
+            {showSolutionButton && (
+              <button className="uploadButton" onClick={() => window.location.href='https://localhost:7243/api/Math'}>צפייה בפיתרון</button>
+            )}
           </div>
-        </div> 
+        </div>
       )}
       {showCamera && (
         <div>
@@ -95,7 +111,7 @@ function UploadingPicture() {
               </div>
             )}
           </div>
-        </div>       
+        </div>
       )}
     </div>
   );

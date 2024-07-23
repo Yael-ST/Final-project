@@ -15,7 +15,9 @@ namespace MyProject
             var ocr = new IronTesseract();
             using (var ocrInput = new OcrInput())
             {
+                #region .
                 ocrInput.LoadImage("C:\\Users\\win 10\\Desktop\\my-project\\C#\\img\\problem_Heb.png");
+                #endregion
                 ocr.Language = OcrLanguage.Hebrew;
                 ocr.AddSecondaryLanguage(OcrLanguage.English);
                 ocrInput.DeNoise(); 

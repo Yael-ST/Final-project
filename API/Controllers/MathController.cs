@@ -12,8 +12,9 @@ namespace API.Controllers
         [HttpGet]
         public string Get()
         {
-            MyProject.MathUpSolver solver = new MyProject.MathUpSolver();
-            return solver.AnyThing();
+
+            return MyProject.Program.Solve ();
+          //  return solver.AnyThing();
          }
 
         // GET api/<MathController>/5

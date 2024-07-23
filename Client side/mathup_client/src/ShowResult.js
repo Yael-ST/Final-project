@@ -1,32 +1,71 @@
-import React, { useState, useRef } from 'react';
-import Webcam from 'react-webcam';
-import axios from 'axios';
-import './App.css';
+// // import React, { useState, useRef } from 'react';
+// // import axios from 'axios';
+// // import './App.css';
 
-function ShowResult() {
+// // function ShowResult() {
+// //  //https://localhost:7243/api/math
+// //   const baseurl='https://localhost:7243/api/math';
+// //   // async function  postDataToserver ()  {
+// //   //  await axios.get<string>(`${baseurl}`)
  
-  const baseurl='https://localhost:7243/api/math';
-  async function  postDataToserver ()  {
-   await axios.post<Decision>(`${baseurl}`, selectedDecision)
-      .then(() => {
-          
-         console.log('השליחה הצליחה')
-          // Fetch new data after updating
-      });
-  };
- async function getData(){
- await axios.get<string>(baseurl+'/5')
+// //   //  .catch(error => {
+// //   //   console.error('Error fetching data:', error);
+// //   // });
+// //   // };
+// //  async function getData(){
+// //  await axios.get(baseurl)
+// // .then(ans=>{})
+// //     .catch(error => {
+// //       console.error('Error fetching data:', error);
+// //     });
+// //   };
 
-    .catch(error => {
-      console.error('Error fetching data:', error);
-    });
-  };
+// //   return (
+// //     <div className="ShowResult">
+// //           <button onClick={getData}>answer</button>
+// //           </div>
+// //   );
+// // }
 
-  return (
-    <div className="ShowResult">
-       <img src="logo2.png" alt="הלוגו של האתר" className="logoImage" />
-        </div>
-  );
-}
+// // export default ShowResult;
 
-export default ShowResult;
+// import React, { useEffect, useState } from 'react';
+// import axios from 'axios';
+
+// function ShowResult() {
+//   const [data, setData] = useState(null);
+//   const [loading, setLoading] = useState(true);
+//   const [error, setError] = useState(null);
+
+//   useEffect(() => {
+//     // בצע קריאה ל-API כאן
+//     axios.get('https://localhost:7243/api/math')
+//       .then((response) => {
+//         console.log(response.data)
+//         setData(response.data);
+//         setLoading(false);
+//       })
+//       .catch((error) => {
+//         setError(error);
+//         setLoading(false);
+//       });
+//   }, []); // השתמש במערך ריק כדי לוודא שהאפקט ירוץ רק פעם אחת
+
+//   if (loading) {
+//     return <div>Loading...</div>;
+//   }
+
+//   if (error) {
+//     return <div>Error: {error.message}</div>;
+//   }
+
+//   return (
+//     <div>
+//       <h1>API Data</h1>
+//       <pre>{JSON.stringify(data, null, 2)}</pre>
+//     </div>
+//   );
+// }
+
+// export default ShowResult;
+

@@ -6,6 +6,7 @@ using SixLabors.ImageSharp.PixelFormats;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,111 +17,122 @@ namespace MyProject
 {
     internal class Sentence : Element
     {
+        Solving solving = new Solving();
+
         public int Id { get; set; }
         public string Text { get; set; }
         public Delegate FunctionPointer { get; set; }
+        public bool IsFinalReached { get; set; }
         public Element GeometricElement { get; set; }
-        public bool isBusy { get; set; }
         public List<Sentence> myChildren;
+
         public Sentence()
         {
             myChildren = new List<Sentence>();
         }
+
+        #region פונקציות ליצירת המשפטים
         public Sentence Create_sentence_Completing_Angles(Element geometric_Element)
         {
-            return new Sentence() { Id = 0, Text = "השלמת זוויות במשולש", FunctionPointer = Completing_Angles, GeometricElement = geometric_Element, isBusy = false };
+            return new Sentence() { Id = 0, Text = "השלמת זוויות במשולש", FunctionPointer = Completing_Angles, GeometricElement = geometric_Element, IsFinalReached = false };
         }
         public Sentence Create_sentence_Shoks_is_equal(Element geometric_Element)
         {
-            return new Sentence() { Id = 1, Text = "אם השוקיים שווים המשולש הוא שוה שוקיים", FunctionPointer = Shoks_is_equal, GeometricElement = geometric_Element, isBusy = false };
+            return new Sentence() { Id = 1, Text = "אם השוקיים שווים המשולש הוא שוה שוקיים", FunctionPointer = Shoks_is_equal, GeometricElement = geometric_Element, IsFinalReached = false };
         }
         public Sentence Create_sentence_Basic_angles_is_equal(Element geometric_Element)
         {
-            return new Sentence() { Id = 2, Text = "אם זוויות הבסיס שוות המשולש הוא שווה שוקיים", FunctionPointer = Basic_angles_is_equal, GeometricElement = geometric_Element, isBusy = false };
+            return new Sentence() { Id = 2, Text = "אם זוויות הבסיס שוות המשולש הוא שווה שוקיים", FunctionPointer = Basic_angles_is_equal, GeometricElement = geometric_Element, IsFinalReached = false };
         }
         public Sentence Create_sentence_Lines_in_IsoscelesTriangle_is_converge(Element geometric_Element)
         {
-            return new Sentence() { Id = 3, Text = "תיכון גובה וחוצה זווית מתלכדים במשולש שווה שוקיים", FunctionPointer = Lines_in_triangle_is_converge, GeometricElement = geometric_Element, isBusy = false };
+            return new Sentence() { Id = 3, Text = "תיכון גובה וחוצה זווית מתלכדים במשולש שווה שוקיים", FunctionPointer = Lines_in_triangle_is_converge, GeometricElement = geometric_Element, IsFinalReached = false };
         }
         public Sentence Create_sentence_if_middle_and_bisectsAngle_is_converge(Element geometric_Element)
         {
-            return new Sentence() { Id = 4, Text = "אם תיכון וחוצה זווית מתלכדים אזי המשולש הוא שוה שוקיים", FunctionPointer = if_middle_and_bisectsAngle_is_converge_the_triangle_is_IsoscelesTriangle, GeometricElement = geometric_Element, isBusy = false };
+            return new Sentence() { Id = 4, Text = "אם תיכון וחוצה זווית מתלכדים אזי המשולש הוא שוה שוקיים", FunctionPointer = if_middle_and_bisectsAngle_is_converge_the_triangle_is_IsoscelesTriangle, GeometricElement = geometric_Element, IsFinalReached = false };
         }
         public Sentence Create_sentence_if_middle_and_plumb_is_converge(Element geometric_Element)
         {
-            return new Sentence() { Id = 5, Text = "אם תיכון וגובה מתלכדים אזי המשולש הוא שוה שוקיים", FunctionPointer = if_middle_and_plumb_is_converge_the_triangle_is_IsoscelesTriangle, GeometricElement = geometric_Element, isBusy = false };
+            return new Sentence() { Id = 5, Text = "אם תיכון וגובה מתלכדים אזי המשולש הוא שוה שוקיים", FunctionPointer = if_middle_and_plumb_is_converge_the_triangle_is_IsoscelesTriangle, GeometricElement = geometric_Element, IsFinalReached = false };
         }
         public Sentence Create_sentence_if_bisectsAngle_and_plumb_is_converge(Element geometric_Element)
         {
-            return new Sentence() { Id = 6, Text = "אם גובה וחוצה זווית מתלכדים אזי המשולש הוא שוה שוקיים", FunctionPointer = if_bisectsAngle_and_plumb_is_converge_the_triangle_is_IsoscelesTriangle, GeometricElement = geometric_Element, isBusy = false };
+            return new Sentence() { Id = 6, Text = "אם גובה וחוצה זווית מתלכדים אזי המשולש הוא שוה שוקיים", FunctionPointer = if_bisectsAngle_and_plumb_is_converge_the_triangle_is_IsoscelesTriangle, GeometricElement = geometric_Element, IsFinalReached = false };
         }
         public Sentence Create_sentence_Overlap_Rib_Angle_Rib(Element geometric_Element)
         {
-            return new Sentence() { Id = 7, Text = "המשולשים חופפים לפי צלע זווית צלע", FunctionPointer = Overlap_Rib_Angle_Rib, GeometricElement = geometric_Element, isBusy = false };
+            return new Sentence() { Id = 7, Text = "המשולשים חופפים לפי צלע זווית צלע", FunctionPointer = Overlap_Rib_Angle_Rib, GeometricElement = geometric_Element, IsFinalReached = false };
         }
         public Sentence Create_sentence_Overlap_Rib_Rib_Rib(Element geometric_Element)
         {
-            return new Sentence() { Id = 8, Text = "המשולשים חופפים לפי צלע צלע צלע", FunctionPointer = Overlap_Rib_Rib_Rib, GeometricElement = geometric_Element, isBusy = false };
+            return new Sentence() { Id = 8, Text = "המשולשים חופפים לפי צלע צלע צלע", FunctionPointer = Overlap_Rib_Rib_Rib, GeometricElement = geometric_Element, IsFinalReached = false };
         }
         public Sentence Create_sentence_Overlap_Angle_Rib_Angle(Element geometric_Element)
         {
-            return new Sentence() { Id = 9, Text = "המשולשים חופפים לפי זווית צלע זווית", FunctionPointer = Overlap_Angle_Rib_Angle, GeometricElement = geometric_Element, isBusy = false };
+            return new Sentence() { Id = 9, Text = "המשולשים חופפים לפי זווית צלע זווית", FunctionPointer = Overlap_Angle_Rib_Angle, GeometricElement = geometric_Element, IsFinalReached = false };
         }
         public Sentence Create_sentence_The_middle_for_yeter(Element geometric_Element)
         {
-            return new Sentence() { Id = 10, Text = "במשולש ישר זווית התיכון ליתר שווה למחצית היתר", FunctionPointer = The_middle_for_yeter, GeometricElement = geometric_Element, isBusy = false };
+            return new Sentence() { Id = 10, Text = "במשולש ישר זווית התיכון ליתר שווה למחצית היתר", FunctionPointer = The_middle_for_yeter, GeometricElement = geometric_Element, IsFinalReached = false };
         }
         public Sentence Create_sentence_The_middle_for_yeter_the_reverse_sentence(Element geometric_Element)
         {
-            return new Sentence() { Id = 11, Text = "אם התיכון ליתר שווה למחצית היתר אזי המשולש ישר זווית", FunctionPointer = The_middle_for_yeter_the_reverse_sentence, isBusy = false };
+            return new Sentence() { Id = 11, Text = "אם התיכון ליתר שווה למחצית היתר אזי המשולש ישר זווית", FunctionPointer = The_middle_for_yeter_the_reverse_sentence, IsFinalReached = false };
         }
         public Sentence Create_sentence_If_triangle_is_IsoscelesTriangle_and_oneOfThEAngles_equal_to_60(Element geometric_Element)
         {
-            return new Sentence() { Id = 12, Text = "אם משולש הוא שווה שוקיים ואחת הזוויות שלו שווה 60 אזי המשולש הוא שווה צלעות", FunctionPointer = If_triangle_is_IsoscelesTriangle_and_oneOfThEAngles_equal_to_60, GeometricElement = geometric_Element, isBusy = false };
+            return new Sentence() { Id = 12, Text = "אם משולש הוא שווה שוקיים ואחת הזוויות שלו שווה 60 אזי המשולש הוא שווה צלעות", FunctionPointer = If_triangle_is_IsoscelesTriangle_and_oneOfThEAngles_equal_to_60, GeometricElement = geometric_Element, IsFinalReached = false };
         }
         public Sentence Create_sentence_If_2_of_angles_equal_to60(Element geometric_Element)
         {
-            return new Sentence() { Id = 13, Text = "אם במשולש קיימות לפחות 2 זוויות ששות 60 המשולש הוא שווה צלעות", FunctionPointer = If_2_of_angles_equal_to60, GeometricElement = geometric_Element, isBusy = false };
+            return new Sentence() { Id = 13, Text = "אם במשולש קיימות לפחות 2 זוויות ששות 60 המשולש הוא שווה צלעות", FunctionPointer = If_2_of_angles_equal_to60, GeometricElement = geometric_Element, IsFinalReached = false };
         }
         public Sentence Create_sentence_Pythagorean_Theorem(Element geometric_Element)
         {
-            return new Sentence() { Id = 14, Text = "משפט פיתגורס", FunctionPointer = Finding_Length_rib_By_Pythagorean_Theorem, GeometricElement = geometric_Element, isBusy = false };
+            return new Sentence() { Id = 14, Text = "משפט פיתגורס", FunctionPointer = Finding_Length_rib_By_Pythagorean_Theorem, GeometricElement = geometric_Element, IsFinalReached = false };
         }
         public Sentence Create_sentence_An_angle_equal_to_90(Element geometric_Element)
         {
-            return new Sentence() { Id = 16, Text = "אם אחת מזויות משולש שווה 90 המשולש הוא משולש ישר זווית...", FunctionPointer = An_angle_equal_to_90, GeometricElement = geometric_Element, isBusy = false };
+            return new Sentence() { Id = 16, Text = "אם אחת מזויות משולש שווה 90 המשולש הוא משולש ישר זווית...", FunctionPointer = An_angle_equal_to_90, GeometricElement = geometric_Element, IsFinalReached = false };
         }
         public Sentence Create_sentence_A_nice_triangle(Element geometric_Element)
         {
-            return new Sentence() { Id = 17, Text = "במשולש ישר זווית שזויותיו החדות שוות 60 ו-30 הניצב שמול הזווית שגודלה 30 שווה למחצית היתר  ", FunctionPointer = Nice_triangle, GeometricElement = geometric_Element, isBusy = false };
+            return new Sentence() { Id = 17, Text = "במשולש ישר זווית שזויותיו החדות שוות 60 ו-30 הניצב שמול הזווית שגודלה 30 שווה למחצית היתר  ", FunctionPointer = Nice_triangle, GeometricElement = geometric_Element, IsFinalReached = false };
         }
         public Sentence Create_sentence_A_nice_triangle__reverse_sentence(Element geometric_Element)
         {
-            return new Sentence() { Id = 18, Text = "אם במשולש ישר זווית אחד הניצבים שווה באורכו למחצית היתר אז הזווית שמול הניצב שווה 30", FunctionPointer = Nice_triangle_the__reverse_sentence, GeometricElement = geometric_Element, isBusy = false };
+            return new Sentence() { Id = 18, Text = "אם במשולש ישר זווית אחד הניצבים שווה באורכו למחצית היתר אז הזווית שמול הניצב שווה 30", FunctionPointer = Nice_triangle_the__reverse_sentence, GeometricElement = geometric_Element, IsFinalReached = false };
         }
         public Sentence Create_sentence_find_Perimeter(Element geometric_Element)
         {
-            return new Sentence() { Id = 19, Text = "מציאת היקף", FunctionPointer = Find_Perimeter, GeometricElement = geometric_Element, isBusy = false };
+            return new Sentence() { Id = 19, Text = "מציאת היקף", FunctionPointer = Find_Perimeter, GeometricElement = geometric_Element, IsFinalReached = false };
         }
         public Sentence Create_sentence_Complete_all_my_relations(Element geometric_Element)
         {
-            return new Sentence() { Id = 19, Text = "הוכח שהם שווים", FunctionPointer = CompleteAllMyRelations<Element>, GeometricElement = geometric_Element, isBusy = false };
+            return new Sentence() { Id = 19, Text = "הוכח שהם שווים", FunctionPointer = CompleteAllMyRelations<Element>, GeometricElement = geometric_Element, IsFinalReached = false };
 
         }
+        #endregion
+
         /// <summary>
         /// מציאת היקף
         /// </summary>
         /// <returns></returns>
-        public void Find_Perimeter(Shape shape)
+        public bool Find_Perimeter(Shape shape)
         {
+            if (shape.Perimeter != 0) { return false; }
             double perimeter = 0;
             foreach (Rib rib in shape.Ribs)
             {
-                perimeter += rib.LenLine != 0 ? rib.LenLine : 0;
+                if (rib.LenLine == 0)
+                    return false;
+                perimeter += rib.LenLine;
             }
-            shape.Perimeter=perimeter;
-            Console.WriteLine("the perimeter of shape :"+shape.Name+" is: "+shape.Perimeter);
+            shape.Perimeter = perimeter;
 
+            Console.WriteLine("the perimeter of shape " + shape.Name + " is: " + shape.Perimeter);
+            return true;
         }
 
         /// <summary>
@@ -182,7 +194,7 @@ namespace MyProject
         /// במשולש שווה שוקיים הישרים מתלכדים
         /// </summary>
         /// <param name="t"></param>
-        public void Lines_in_triangle_is_converge(Triangle t)
+        public bool Lines_in_triangle_is_converge(Triangle t)
         {
             if (t is IsoscelesTriangle)
             {
@@ -194,6 +206,7 @@ namespace MyProject
                             Create_plumb(line);
                         if (line.DescriptionLine != DescriptionLine.bisectsAngle)
                             Create_bisectsAngle(line);
+                        return true;
                     }
                     if (line!.DescriptionLine == DescriptionLine.bisectsAngle)
                     {
@@ -201,6 +214,7 @@ namespace MyProject
                             Create_plumb(line);
                         if (line.DescriptionLine != DescriptionLine.middle)
                             Create_middle(line);
+                        return true;
                     }
                     if (line!.DescriptionLine == DescriptionLine.plumb)
                     {
@@ -208,9 +222,12 @@ namespace MyProject
                             Create_bisectsAngle(line);
                         if (line.DescriptionLine != DescriptionLine.middle)
                             Create_middle(line);
+                        return true;
                     }
+
                 }
             }
+            return false;
         }
 
         /// <summary>
@@ -319,7 +336,7 @@ namespace MyProject
                         };
                         GlobalVariable.ListAllRelations.Add(relation1);
                         yeter.LenLine = middle.LenLine != 0 ? 2 * middle.LenLine : yeter.LenLine;
-                        middle.LenLine = yeter.LenLine != 0 ? 0.5 * yeter.LenLine : middle.LenLine;                      
+                        middle.LenLine = yeter.LenLine != 0 ? 0.5 * yeter.LenLine : middle.LenLine;
                     }
                 }
             }
@@ -364,40 +381,55 @@ namespace MyProject
         /// </summary>
         /// <param name="t"></param>
         /// <returns></returns>
-        public void Finding_Length_rib_By_Pythagorean_Theorem(Triangle t)
+        public bool Finding_Length_rib_By_Pythagorean_Theorem(Triangle t)
         {
             if (t is not RightTriangle)
-                return;
+                return false;
             Rib ribNichav1 = t.Ribs.FirstOrDefault(x => x.DescriptionRib == DescriptionRib.nichav)!;
             Rib ribNichav2 = t.Ribs.LastOrDefault(x => x.DescriptionRib == DescriptionRib.nichav)!;
             Rib ribYeter = t.Ribs.FirstOrDefault(x => x.DescriptionRib == DescriptionRib.yeter)!;
             double nichav1 = ribNichav1.LenLine, nichav2 = ribNichav2.LenLine, yeter = ribYeter.LenLine;
-
+            if ((nichav1 == 0 && nichav2 == 0) || (nichav1 == 0 && yeter == 0) || (nichav2 == 0 && yeter == 0))
+                return false;
             ribYeter.LenLine = yeter == 0 ? Math.Sqrt(nichav1 * nichav1 + nichav2 * nichav2) : ribYeter.LenLine;
+            if (ribYeter.LenLine != 0) { ribYeter.CompleteAllMyRelations(); };
             ribNichav1.LenLine = nichav1 == 0 ? Math.Sqrt(yeter * yeter - nichav2 * nichav2) : ribNichav1.LenLine;
-            ribNichav2.LenLine = nichav2 == 0 ? Math.Sqrt(yeter * yeter + nichav1 * nichav1) : ribNichav2.LenLine;
+            if (ribNichav1.LenLine != 0) { ribNichav1.CompleteAllMyRelations(); };
+            ribNichav2.LenLine = nichav2 == 0 ? Math.Sqrt(yeter * yeter - nichav1 * nichav1) : ribNichav2.LenLine;
+            if (ribNichav2.LenLine != 0) { ribNichav2.CompleteAllMyRelations(); };
 
             #region הוספת משפטים רלוונטים למילון
-            //מזמן םונקציה של היקף עבור כל אחד מהמשולשים שהצלעות יכולות להיות שייכות אליהם
-            foreach (Rib rib in t.Ribs)
+            if (!GlobalVariable.stopAddingSentences)
             {
-                var shapesWithYeter = GlobalVariable.shapes.Where(s => s.Ribs.Any(r => r.NameLine == rib.NameLine)).ToList();
-                foreach (var shape in shapesWithYeter)
+                //מזמן םונקציה של היקף עבור כל אחד מהמשולשים שהצלעות יכולות להיות שייכות אליהם
+                foreach (Rib rib in t.Ribs)
                 {
-                    Sentence s1 = Create_sentence_find_Perimeter(shape);
-                    // הוספת המשפט החדש לרשימה של מי שזימן אותו
-                    if (GlobalVariable.callStack.Count > 0)
+                    if (!GlobalVariable.stopAddingSentences)
                     {
-                        Sentence parentSentence = GlobalVariable.callStack.Peek(); // קבלת המשפט המזמן
-                        Sentence ss =parentSentence.myChildren.FirstOrDefault(x => x.Id == s1.Id &&  x.GeometricElement== s1.GeometricElement)!;
-                        if (ss == null)
-                            parentSentence.myChildren.Add(s1); // הוספת המשפט החדש לרשימת תתי המשפטים שלו
+                        var shapesWithYeter = GlobalVariable.shapes.Where(s => s.Ribs.Any(r => r.NameLine == rib.NameLine)).ToList();
+                        foreach (var shape in shapesWithYeter)
+                        {
+                            if (!GlobalVariable.stopAddingSentences)
+                            {
+                                Sentence s1 = Create_sentence_find_Perimeter(shape);
+                                // הוספת המשפט החדש לרשימה של מי שזימן אותו
+                                if (GlobalVariable.callStack.Count > 0)
+                                {
+                                    Sentence parentSentence = GlobalVariable.callStack.Peek(); // קבלת המשפט המזמן
+                                    Sentence ss = parentSentence.myChildren.FirstOrDefault(x => x.Id == s1.Id && x.GeometricElement == s1.GeometricElement)!;
+                                    if (ss == null)
+                                        parentSentence.myChildren.Add(s1); // הוספת המשפט החדש לרשימת תתי המשפטים שלו
+                                }
+
+                                // המשך הסריקה עבור המשפט החדש
+                                solving.ExploreTree(s1);
+                            }
+                        }
                     }
-                    // המשך הסריקה עבור המשפט החדש
-                    Solving.ExploreTree(s1);
                 }
-            }           
+            }
             #endregion
+            return true;
         }
 
         /// <summary>
@@ -441,7 +473,7 @@ namespace MyProject
         /// <returns></returns>
         public void Nice_triangle_the__reverse_sentence(Triangle t)
         {
-            if(t is not RightTriangle) { return; }
+            if (t is not RightTriangle) { return; }
             foreach (Rib rib in t.Ribs)
             {
                 Rib yeter = t.Ribs.FirstOrDefault(x => x.DescriptionRib == DescriptionRib.yeter)!;
@@ -658,18 +690,20 @@ namespace MyProject
             GlobalVariable.shapes.Add(it);
 
             #region הוספת משפטים רלוונטים למילון
-            Sentence s1 = Create_sentence_Lines_in_IsoscelesTriangle_is_converge(it);
-            // הוספת המשפט החדש לרשימה של מי שזימן אותו
-            if (GlobalVariable.callStack.Count > 0)
+            if (!GlobalVariable.stopAddingSentences)
             {
-                Sentence parentSentence = GlobalVariable.callStack.Peek(); // קבלת המשפט המזמן
-                Sentence ss = parentSentence.myChildren.FirstOrDefault(x => x.Id == s1.Id && x.GeometricElement == s1.GeometricElement)!;
-                if (ss == null)
-                    parentSentence.myChildren.Add(s1); // הוספת המשפט החדש לרשימת תתי המשפטים שלו
+                Sentence s1 = Create_sentence_Lines_in_IsoscelesTriangle_is_converge(it);
+                // הוספת המשפט החדש לרשימה של מי שזימן אותו
+                if (GlobalVariable.callStack.Count > 0)
+                {
+                    Sentence parentSentence = GlobalVariable.callStack.Peek(); // קבלת המשפט המזמן
+                    Sentence ss = parentSentence.myChildren.FirstOrDefault(x => x.Id == s1.Id && x.GeometricElement == s1.GeometricElement)!;
+                    if (ss == null)
+                        parentSentence.myChildren.Add(s1); // הוספת המשפט החדש לרשימת תתי המשפטים שלו
+                }
+                // המשך הסריקה עבור המשפט החדש
+                solving.ExploreTree(s1);
             }
-            // המשך הסריקה עבור המשפט החדש
-            Solving.ExploreTree(s1);
-
             #endregion
         }
 
@@ -685,7 +719,7 @@ namespace MyProject
             rt.Angles = t.Angles;
             rt.Ribs = t.Ribs;
             rt.Name = t.Name;
-            rt.MoreAngles = t.MoreAngles;
+            rt.MoreLines = t.MoreLines;
             rt.MoreAngles = t.MoreAngles;
 
             if (line == null)
@@ -699,36 +733,60 @@ namespace MyProject
                     nameRightAngle = nameRightAngle[2] + nameRightAngle[1] + nameRightAngle[0].ToString();
                 rt.RightAngle = rt.Angles.FirstOrDefault(x => x.NameAngle == nameRightAngle)!;
             }
-            TextAnalysis textAnalysis = new TextAnalysis();
-            textAnalysis.SetRibsOfRightTri(rt);
+            SetSetRibsOfLittleRightTri(rt);
             rt.Set_attributes_of_the_Right_triangle();
             GlobalVariable.shapes.Remove(t);
             GlobalVariable.shapes.Add(rt);
 
+
             #region הוספת משפטים רלונטיים לעץ
-            Sentence s1 = Create_sentence_Pythagorean_Theorem(rt);
-            Sentence s2 = Create_sentence_The_middle_for_yeter(rt);
-            Sentence s3 = Create_sentence_A_nice_triangle(rt);
-            // הוספת המשפט החדש לרשימה של מי שזימן אותו
-            if (GlobalVariable.callStack.Count > 0)
+            if (!GlobalVariable.stopAddingSentences)
             {
-                Sentence parentSentence = GlobalVariable.callStack.Peek(); // קבלת המשפט המזמן
-                Sentence ss = parentSentence.myChildren.FirstOrDefault(x => x.Id == s1.Id && x.GeometricElement == s1.GeometricElement)!;
-                if (ss == null)
-                    parentSentence.myChildren.Add(s1); // הוספת המשפט החדש לרשימת תתי המשפטים שלו
-                ss = parentSentence.myChildren.FirstOrDefault(x => x.Id == s2.Id && x.GeometricElement == s2.GeometricElement)!;
-                if (ss == null)
-                    parentSentence.myChildren.Add(s2);
-                ss = parentSentence.myChildren.FirstOrDefault(x => x.Id == s3.Id && x.GeometricElement == s3.GeometricElement)!;
-                if (ss == null)
-                    parentSentence.myChildren.Add(s3);
+                Sentence s1 = Create_sentence_Pythagorean_Theorem(rt);
+                Sentence s2 = Create_sentence_The_middle_for_yeter(rt);
+                Sentence s3 = Create_sentence_A_nice_triangle(rt);
+                // הוספת המשפט החדש לרשימה של מי שזימן אותו
+                if (GlobalVariable.callStack.Count > 0)
+                {
+                    Sentence parentSentence = GlobalVariable.callStack.Peek(); // קבלת המשפט המזמן
+                    Sentence ss = parentSentence.myChildren.FirstOrDefault(x => x.Id == s1.Id && x.GeometricElement == s1.GeometricElement)!;
+                    if (ss == null)
+                        parentSentence.myChildren.Add(s1); // הוספת המשפט החדש לרשימת תתי המשפטים שלו
+                    ss = parentSentence.myChildren.FirstOrDefault(x => x.Id == s2.Id && x.GeometricElement == s2.GeometricElement)!;
+                    if (ss == null)
+                        parentSentence.myChildren.Add(s2);
+                    ss = parentSentence.myChildren.FirstOrDefault(x => x.Id == s3.Id && x.GeometricElement == s3.GeometricElement)!;
+                    if (ss == null)
+                        parentSentence.myChildren.Add(s3);
+                }
+                // המשך הסריקה עבור המשפט החדש
+                solving.ExploreTree(s1);
+                solving.ExploreTree(s2);
+                solving.ExploreTree(s2);
             }
-            // המשך הסריקה עבור המשפט החדש
-            Solving.ExploreTree(s1);
-            Solving.ExploreTree(s2);
-            Solving.ExploreTree(s2);
 
             #endregion
+            Console.WriteLine("the right triangle " + rt.Name + " is built");
+        }
+
+        public void SetSetRibsOfLittleRightTri(RightTriangle t1)
+        {
+            string nameNichav1 = string.Concat(t1.RightAngle.NameAngle[0], t1.RightAngle.NameAngle[1]);
+            string nameNichav2 = string.Concat(t1.RightAngle.NameAngle[1], t1.RightAngle.NameAngle[2]);
+            string nameYeter = string.Concat(t1.RightAngle.NameAngle[2], t1.RightAngle.NameAngle[0]);
+            nameNichav1 = new string(nameNichav1.OrderBy(char.ToLower).ToArray());
+            nameNichav2 = new string(nameNichav2.OrderBy(char.ToLower).ToArray());
+            nameYeter = new string(nameYeter.OrderBy(char.ToLower).ToArray());
+            Rib ribNichav1 = t1.Ribs.FirstOrDefault(x => x.NameLine == nameNichav1)!;
+            Rib ribNichav2 = t1.Ribs.FirstOrDefault(x => x.NameLine == nameNichav2)!;
+            Rib ribYeter = t1.Ribs.FirstOrDefault(x => x.NameLine == nameYeter)!;
+            ribNichav1.DescriptionRib = DescriptionRib.nichav;
+            ribNichav2.DescriptionRib = DescriptionRib.nichav;
+            ribYeter.DescriptionRib = DescriptionRib.yeter;
+            foreach (Rib item in t1.Ribs)
+            {
+                Console.WriteLine("the length of rib " + item.NameLine + " is " + item.LenLine);
+            }
         }
 
         /// <summary>
@@ -739,34 +797,37 @@ namespace MyProject
         {
             line.DescriptionLine = DescriptionLine.plumb | DescriptionLine.bisectsAngle | DescriptionLine.middle;
             Triangle littleTriangle1 = GlobalVariable.shapes.Where(x => x is Triangle).Select(a => a as Triangle).FirstOrDefault(x => x.Ribs[0].NameLine == line.NameLine || x.Ribs[1].NameLine == line.NameLine || x.Ribs[2].NameLine == line.NameLine)!;
-            Triangle littleTriangle2 = GlobalVariable.shapes.Where(x => x is Triangle).Select(a => a as Triangle).FirstOrDefault(x => x != littleTriangle1 && (x.Ribs[0].NameLine == line.NameLine || x.Ribs[1].NameLine == line.NameLine || x.Ribs[2].NameLine == line.NameLine))!;
+            Triangle littleTriangle2 = GlobalVariable.shapes.Where(x => x is Triangle).Select(a => a as Triangle).LastOrDefault(x => x.Ribs[0].NameLine == line.NameLine || x.Ribs[1].NameLine == line.NameLine || x.Ribs[2].NameLine == line.NameLine)!;
             Create_Right_Triangle(littleTriangle1, line, null!);
             Create_Right_Triangle(littleTriangle2, line, null!);
             Shape shape = GlobalVariable.shapes.FirstOrDefault(x => x.Name == line.NameShape)!;
 
             #region הוספת המשפטים הרלוונטים לעץ
-            Sentence s1 = Create_sentence_if_middle_and_plumb_is_converge(shape);
-            Sentence s2 = Create_sentence_Lines_in_IsoscelesTriangle_is_converge(shape);
-            Sentence s3 = Create_sentence_if_bisectsAngle_and_plumb_is_converge(shape);
-
-            // הוספת המשפטים החדשים לתת חוליה של מי שזימן אותו
-            if (GlobalVariable.callStack.Count > 0)
+            if (!GlobalVariable.stopAddingSentences)
             {
-                Sentence parentSentence = GlobalVariable.callStack.Peek(); // קבלת המשפט המזמן
-                Sentence ss = parentSentence.myChildren.FirstOrDefault(x => x.Id == s1.Id && x.GeometricElement == s1.GeometricElement)!;
-                if (ss == null)
-                    parentSentence.myChildren.Add(s1); // הוספת המשפט החדש לרשימת תתי המשפטים שלו
-                ss = parentSentence.myChildren.FirstOrDefault(x => x.Id == s2.Id && x.GeometricElement == s2.GeometricElement)!;
-                if (ss == null)
-                    parentSentence.myChildren.Add(s2);
-                ss = parentSentence.myChildren.FirstOrDefault(x => x.Id == s3.Id && x.GeometricElement == s3.GeometricElement)!;
-                if (ss == null)
-                    parentSentence.myChildren.Add(s3);
+                Sentence s1 = Create_sentence_if_middle_and_plumb_is_converge(shape);
+                Sentence s2 = Create_sentence_Lines_in_IsoscelesTriangle_is_converge(shape);
+                Sentence s3 = Create_sentence_if_bisectsAngle_and_plumb_is_converge(shape);
+
+                // הוספת המשפטים החדשים לתת חוליה של מי שזימן אותו
+                if (GlobalVariable.callStack.Count > 0)
+                {
+                    Sentence parentSentence = GlobalVariable.callStack.Peek(); // קבלת המשפט המזמן
+                    Sentence ss = parentSentence.myChildren.FirstOrDefault(x => x.Id == s1.Id && x.GeometricElement == s1.GeometricElement)!;
+                    if (ss == null)
+                        parentSentence.myChildren.Add(s1); // הוספת המשפט החדש לרשימת תתי המשפטים שלו
+                    ss = parentSentence.myChildren.FirstOrDefault(x => x.Id == s2.Id && x.GeometricElement == s2.GeometricElement)!;
+                    if (ss == null)
+                        parentSentence.myChildren.Add(s2);
+                    ss = parentSentence.myChildren.FirstOrDefault(x => x.Id == s3.Id && x.GeometricElement == s3.GeometricElement)!;
+                    if (ss == null)
+                        parentSentence.myChildren.Add(s3);
+                }
+                // המשך הסריקה עבור המשפט החדש
+                solving.ExploreTree(s1);
+                solving.ExploreTree(s2);
+                solving.ExploreTree(s2);
             }
-            // המשך הסריקה עבור המשפט החדש
-            Solving.ExploreTree(s1);
-            Solving.ExploreTree(s2);
-            Solving.ExploreTree(s2);
             #endregion
 
         }
@@ -780,7 +841,7 @@ namespace MyProject
             line.DescriptionLine = DescriptionLine.plumb | DescriptionLine.bisectsAngle | DescriptionLine.middle;
             Triangle littleTriangle1 = GlobalVariable.shapes.Where(x => x is Triangle).Select(a => a as Triangle).FirstOrDefault(x => x.Ribs[0].NameLine == line.NameLine || x.Ribs[1].NameLine == line.NameLine || x.Ribs[2].NameLine == line.NameLine)!;
             Triangle littleTriangle2 = GlobalVariable.shapes.Where(x => x is Triangle).Select(a => a as Triangle).FirstOrDefault(x => x != littleTriangle1 && (x.Ribs[0].NameLine == line.NameLine || x.Ribs[1].NameLine == line.NameLine || x.Ribs[2].NameLine == line.NameLine))!;
-            string nameAngle1 = string.Concat( line.NameAngleSource[0], line.NameAngleSource[1], line.CutPoint);
+            string nameAngle1 = string.Concat(line.NameAngleSource[0], line.NameAngleSource[1], line.CutPoint);
             string nameAngle2 = string.Concat(line.NameAngleSource[2], line.NameAngleSource[1], line.CutPoint);
             nameAngle1 = nameAngle1[0] > nameAngle1[2] ? string.Concat(nameAngle1[2], nameAngle1[1], nameAngle1[0]) : nameAngle1;
             nameAngle2 = nameAngle2[0] > nameAngle2[2] ? string.Concat(nameAngle2[2], nameAngle2[1], nameAngle2[0]) : nameAngle2;
@@ -798,28 +859,31 @@ namespace MyProject
             Shape shape = GlobalVariable.shapes.FirstOrDefault(x => x.Name == line.NameShape)!;
 
             #region הוספת המשפטים הרלוונטים לעץ
-            Sentence s1 = Create_sentence_if_middle_and_bisectsAngle_is_converge(shape);
-            Sentence s2 = Create_sentence_Lines_in_IsoscelesTriangle_is_converge(shape);
-            Sentence s3 = Create_sentence_if_bisectsAngle_and_plumb_is_converge(shape);
-
-            // הוספת המשפטים החדשים לתת חוליה של מי שזימן אותו
-            if (GlobalVariable.callStack.Count > 0)
+            if (!GlobalVariable.stopAddingSentences)
             {
-                Sentence parentSentence = GlobalVariable.callStack.Peek(); // קבלת המשפט המזמן
-                Sentence ss = parentSentence.myChildren.FirstOrDefault(x => x.Id == s1.Id && x.GeometricElement == s1.GeometricElement)!;
-                if (ss == null)
-                    parentSentence.myChildren.Add(s1); // הוספת המשפט החדש לרשימת תתי המשפטים שלו
-                ss = parentSentence.myChildren.FirstOrDefault(x => x.Id == s2.Id && x.GeometricElement == s2.GeometricElement)!;
-                if (ss == null)
-                    parentSentence.myChildren.Add(s2);
-                ss = parentSentence.myChildren.FirstOrDefault(x => x.Id == s3.Id && x.GeometricElement == s3.GeometricElement)!;
-                if (ss == null)
-                    parentSentence.myChildren.Add(s3);
+                Sentence s1 = Create_sentence_if_middle_and_bisectsAngle_is_converge(shape);
+                Sentence s2 = Create_sentence_Lines_in_IsoscelesTriangle_is_converge(shape);
+                Sentence s3 = Create_sentence_if_bisectsAngle_and_plumb_is_converge(shape);
+
+                // הוספת המשפטים החדשים לתת חוליה של מי שזימן אותו
+                if (GlobalVariable.callStack.Count > 0)
+                {
+                    Sentence parentSentence = GlobalVariable.callStack.Peek(); // קבלת המשפט המזמן
+                    Sentence ss = parentSentence.myChildren.FirstOrDefault(x => x.Id == s1.Id && x.GeometricElement == s1.GeometricElement)!;
+                    if (ss == null)
+                        parentSentence.myChildren.Add(s1); // הוספת המשפט החדש לרשימת תתי המשפטים שלו
+                    ss = parentSentence.myChildren.FirstOrDefault(x => x.Id == s2.Id && x.GeometricElement == s2.GeometricElement)!;
+                    if (ss == null)
+                        parentSentence.myChildren.Add(s2);
+                    ss = parentSentence.myChildren.FirstOrDefault(x => x.Id == s3.Id && x.GeometricElement == s3.GeometricElement)!;
+                    if (ss == null)
+                        parentSentence.myChildren.Add(s3);
+                }
+                // המשך הסריקה עבור המשפט החדש
+                solving.ExploreTree(s1);
+                solving.ExploreTree(s2);
+                solving.ExploreTree(s2);
             }
-            // המשך הסריקה עבור המשפט החדש
-            Solving.ExploreTree(s1);
-            Solving.ExploreTree(s2);
-            Solving.ExploreTree(s2);
             #endregion
         }
 
@@ -842,37 +906,37 @@ namespace MyProject
             {
                 Relation relation1 = new Relation() { obj1 = rib1, obj2 = rib2, relation = 1 };
                 GlobalVariable.ListAllRelations.Add(relation1);
-                if (rib1.LenLine == 0)
-                    rib1.LenLine = rib2.LenLine;
-                if (rib2.LenLine == 0)
-                    rib2.LenLine = rib1.LenLine;
-
+                rib1.LenLine = rib1.LenLine == 0 ? rib2.LenLine : rib1.LenLine;
+                rib2.LenLine = rib2.LenLine == 0 ? rib1.LenLine : rib2.LenLine;
             }
             Shape shape = GlobalVariable.shapes.FirstOrDefault(x => x.Name == line.NameShape)!;
 
             #region הוספת המשפטים הרלוונטים לעץ
-            Sentence s1 = Create_sentence_if_middle_and_plumb_is_converge(shape);
-            Sentence s2 = Create_sentence_Lines_in_IsoscelesTriangle_is_converge(shape);
-            Sentence s3 = Create_sentence_if_middle_and_bisectsAngle_is_converge(shape);
-
-            // הוספת המשפטים החדשים לתת חוליה של מי שזימן אותו
-            if (GlobalVariable.callStack.Count > 0)
+            if (!GlobalVariable.stopAddingSentences)
             {
-                Sentence parentSentence = GlobalVariable.callStack.Peek(); // קבלת המשפט המזמן
-                Sentence ss = parentSentence.myChildren.FirstOrDefault(x => x.Id == s1.Id && x.GeometricElement == s1.GeometricElement)!;
-                if (ss == null)
-                    parentSentence.myChildren.Add(s1); // הוספת המשפט החדש לרשימת תתי המשפטים שלו
-                ss = parentSentence.myChildren.FirstOrDefault(x => x.Id == s2.Id && x.GeometricElement == s2.GeometricElement)!;
-                if (ss == null)
-                    parentSentence.myChildren.Add(s2);
-                ss = parentSentence.myChildren.FirstOrDefault(x => x.Id == s3.Id && x.GeometricElement == s3.GeometricElement)!;
-                if (ss == null)
-                    parentSentence.myChildren.Add(s3);
+                Sentence s1 = Create_sentence_if_middle_and_plumb_is_converge(shape);
+                Sentence s2 = Create_sentence_Lines_in_IsoscelesTriangle_is_converge(shape);
+                Sentence s3 = Create_sentence_if_middle_and_bisectsAngle_is_converge(shape);
+
+                // הוספת המשפטים החדשים לתת חוליה של מי שזימן אותו
+                if (GlobalVariable.callStack.Count > 0)
+                {
+                    Sentence parentSentence = GlobalVariable.callStack.Peek(); // קבלת המשפט המזמן
+                    Sentence ss = parentSentence.myChildren.FirstOrDefault(x => x.Id == s1.Id && x.GeometricElement == s1.GeometricElement)!;
+                    if (ss == null)
+                        parentSentence.myChildren.Add(s1); // הוספת המשפט החדש לרשימת תתי המשפטים שלו
+                    ss = parentSentence.myChildren.FirstOrDefault(x => x.Id == s2.Id && x.GeometricElement == s2.GeometricElement)!;
+                    if (ss == null)
+                        parentSentence.myChildren.Add(s2);
+                    ss = parentSentence.myChildren.FirstOrDefault(x => x.Id == s3.Id && x.GeometricElement == s3.GeometricElement)!;
+                    if (ss == null)
+                        parentSentence.myChildren.Add(s3);
+                }
+                // המשך הסריקה עבור המשפט החדש
+                solving.ExploreTree(s1);
+                solving.ExploreTree(s2);
+                solving.ExploreTree(s2);
             }
-            // המשך הסריקה עבור המשפט החדש
-            Solving.ExploreTree(s1);
-            Solving.ExploreTree(s2);
-            Solving.ExploreTree(s2);
             #endregion
         }
 
